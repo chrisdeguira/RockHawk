@@ -2,12 +2,13 @@ var express=require("express");
 var http=require("http");
 var path=require("path");
 var bodyParser=require("body-Parser");
+var handlebars=require("express-handlebars").create({defaultLayout:"main"});
 var db = require('./db')
 //yellow marks for db opers
 var app=express();
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.engine('handlebars', handlebars.engine);
+app.set('view engine', 'handlebars');
 
 var publicPath=path.resolve(__dirname, "public");
 app.use("/styles",  express.static(__dirname + '/public/css'));
@@ -45,6 +46,11 @@ app.get('/liveMap',function(req,res){
 app.get('/main',function(req,res){
     console.log("send to the home page");
     res.sendFile(__dirname + "/public/index.html");
+});
+
+app.get('/test',function(req,res){
+    console.log("send to the home page");
+    res.sendFile(__dirname + "/public/test.html");
 });
 
 /*app.get('/menu',function(req,res){
