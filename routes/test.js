@@ -21,7 +21,7 @@ router.post('/signupServer', function(req, res) {
         db.close();
     });
 
-    //hey chris
+    
 });
 //})
 module.exports = router;
