@@ -28,7 +28,10 @@
     "dependencies": {
         "bootstrap": "4.0.0",
         "jquery": "3.3.1",
-        "jquery.easing": "^1.4.1"
+        "jquery.easing": "^1.4.1",
+        "mongodb": "^3.0.4",
+        "nodejs": "0.0.0",
+        "requirejs": "^2.3.5"
     },
     "devDependencies": {
         "browser-sync": "2.23.6",

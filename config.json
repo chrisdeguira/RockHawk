@@ -1,0 +1,6 @@
+{
+  "devServer":
+  {
+    "url":"mongodb+srv://rockhawk:teamrockers@rockhawk-fmxoq.mongodb.net/test"
+  }
+}
