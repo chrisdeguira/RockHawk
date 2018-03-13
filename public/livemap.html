@@ -106,8 +106,26 @@
         }
       ];
 
-      for(var i = 0; i<markers.length; i++){
-        addMarker(markers[i]);
+        for(var i = 0; i<markers.length; i++){
+          addMarker(markers[i]);
+        }
+
+        var flightPlanCoordinates = [
+          {lat: 33.34488, lng: -83.17503},
+          {lat: 33.345, lng: -83.177},
+          {lat: 33.355, lng: -83.18},
+          {lat: 33.357, lng: -83.173}
+        ];
+        var flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+
       }
 
 
@@ -125,7 +143,7 @@
         infoWindow.open(map, marker);
         });
       }
-      }
+      
 
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
