@@ -22,7 +22,7 @@ router.post('/signupServer', function(req, res) {
         //comment
     });
 
-    //hey chris
+    
 });
 //})
 module.exports = router;
