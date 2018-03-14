@@ -53,35 +53,6 @@ app.get('/test',function(req,res){
     res.sendFile(__dirname + "/public/test.html");
 });
 
-/*app.get('/menu',function(req,res){
-	console.log("a request from menu");
-	res.sendFile(`${publicPath}/menu.html`);
-});*/
-
-app.get('/main',function(req,res){
-    console.log("a request from main");
-    res.sendFile(`${publicPath}/main.html`);
-});
-
-app.get('/about',function(req,res){
-    console.log("a request from about");
-    res.sendFile(`${publicPath}/about.html`);
-});
-
-app.get('/cart',function(req,res){
-    console.log("a request from about");
-    res.sendFile(`${publicPath}/cart.html`);
-});
-
-app.get('/signup',function(req,res){
-    console.log("a request from signup");
-    res.render("signup");
-});
-
-/*app.post('/signupServer',function(req,res){
-	console.log("a request from signup");
-	res.send("<h2>We will parse the request in the next class</h2>");
-});*/
 
 app.use(function(req,res, next){
     //nnext is callback function afer this function is done
