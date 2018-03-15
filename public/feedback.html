@@ -51,23 +51,45 @@
         }
     </style>
 
-    <form action="/action_page.php" id="form">
+    <form onsubmit="return make_json(this);">
         First name:<br>
-        <input type="text" name="Izuku"><br>
+        <input type="text" name="firstName"><br>
         Last name:<br>
-        <input type="text" name="Midoriya"><br>
+        <input type="text" name="lastName"><br>
         Email:<br>
-        <input type="email" name="allmight@gmail.com"><br>
+        <input type="email" name="email"><br>
         How would you rate your experience?<br>
-        <!--<input type="radio" name="gender" value="1"> 1<br>
-        <input type="radio" name="gender" value="2"> 2<br>
-        <input type="radio" name="gender" value="3"> 3<br>
-        <input type="radio" name="gender" value="4"> 4<br>
-        <input type="radio" name="gender" value="5" checked> 5<br>-->
+        <input type="radio" name="rating" value="1"> 1
+        <input type="radio" name="rating" value="2"> 2
+        <input type="radio" name="rating" value="3"> 3
+        <input type="radio" name="rating" value="4"> 4
+        <input type="radio" name="rating" value="5" checked> 5<br>
         Additional Comments:<br>
         <textarea name="comment" form="form">Enter text here...</textarea>
+        <br>
+
+        <input type="submit" name="submit">
 
     </form>
+
+    <pre id="output">
+    	Json...
+    </pre>
+
+    <script>
+    	function make_json(form){
+    		var json={
+    			"firstName": form.firstName.value,
+    			"lastName": form.lastName.value,
+    			"email": form.email.value,
+    			"rating": form.rating.value
+
+    		};
+    		var html = JSON.stringify(json,0,4) ;
+    		document.getElementById('output').innerHTML=html;
+    		return false;
+    	}
+    </script>
 
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-32">
