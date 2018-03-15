@@ -7,6 +7,15 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_TRACKING_ID');
+</script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
     .w3-sidebar {
@@ -29,6 +38,13 @@
         margin: 0;
         padding: 0;
       }
+      body{
+        background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
+        background-position: right top;
+        background-size: auto;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+    }
 </style>
 <body>
 
@@ -36,7 +52,7 @@
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk Park</a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Live Map</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
 </div>
@@ -47,9 +63,9 @@
         <i class="fa fa-remove"></i>
     </a>
     <h4 class="w3-bar-item"><b>Menu</b></h4>
-    <a class="w3-bar-item w3-button w3-hover-black" href="livemap2.html">Live Map</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="feedback2.html">Feedback</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="donate2.html">Donate</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="index3.html">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="feedback3.html">Feedback</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate3.html">Donate</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -61,12 +77,8 @@
 
 
     <footer id="myFooter">
-        <div class="w3-container w3-theme-l2 w3-padding-32">
+        <div class="w3-container w3-theme-l2 w3-padding-20">
             <h4>Developed by students at GCSU</h4>
-        </div>
-
-        <div class="w3-container w3-theme-l1">
-            <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
         </div>
     </footer>
 
@@ -106,7 +118,8 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:33.34488, lng:-83.17503},
-          zoom: 14
+          zoom: 14,
+          mapTypeId: 'satellite'
         });
         infoWindow = new google.maps.InfoWindow;
 
@@ -133,8 +146,7 @@
         var markers = [
         {
           coords:{lat:33.34488, lng: -83.17503},
-          content:'<h1>Marker1</h1>',
-          icon: './resources/animal.jpg'
+          content:'<h1>Marker1</h1>'
         },
         {
           coords:{lat:33.345, lng: -83.177},
@@ -149,22 +161,6 @@
       for(var i = 0; i<markers.length; i++){
         addMarker(markers[i]);
       }
-
-      var flightPlanCoordinates = [
-          {lat: 33.34488, lng: -83.17503},
-          {lat: 33.345, lng: -83.177},
-          {lat: 33.355, lng: -83.18},
-          {lat: 33.357, lng: -83.173}
-        ];
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-
-        flightPath.setMap(map);
 
 
       function addMarker(properties){
