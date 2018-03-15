@@ -86,9 +86,10 @@
         <i class="fa fa-remove"></i>
     </a>
     <h4 class="w3-bar-item"><b>Menu</b></h4>
-    <a class="w3-bar-item w3-button w3-hover-black" href="livemap.html">Live Map</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="feedback.html">Feedback</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="donate.html">Donate</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="main">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Live Map</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="feedback">Feedback</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate">Donate</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -103,7 +104,7 @@
         }
     </style>
 
-    <form onsubmit="return make_json(this);">
+    <form method="post" action="sendFeedback">
         First name:<br>
         <input type="text" name="firstName"><br>
         Last name:<br>

@@ -60,7 +60,10 @@ app.get('/test',function(req,res){
 var MongoClient = require('mongodb').MongoClient;
 var feedbackSchema = new mongoose.Schema({
     firstName: String,
-    lastName: String
+    lastName: String,
+    email: String,
+    rating: String,
+    comment: String
 });
 var Feedback = mongoose.model("Feedback", feedbackSchema);
 app.post("/sendFeedback",function(req, res) {
@@ -69,10 +72,11 @@ app.post("/sendFeedback",function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("rockhawkdb");
-        dbo.collection("feedback").insertOne(data, function(err, res) {
+        dbo.collection("feedback").insertOne(data, function(err, res2) {
             if (err) throw err;
             console.log("Feedback sent to database");
             db.close();
+            res.redirect("feedback");
         });
     });
 });
