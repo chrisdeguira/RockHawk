@@ -45,33 +45,29 @@
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
 <div class="w3-main" style="margin-left:250px">
 
-    <div class="w3-row w3-padding-64">
-        <div class="w3-twothird w3-container">
-            <h1>Feedback Survey</h1>
-            <label for="firstname">First Name:</label>
-            <textarea rows="1" id="firstname"></textarea>
-            <br>
-            <label for="lastname">Last Name:</label>
-            <textarea rows="1" id="lastname"></textarea>
-            <br>
-            <label for="emailaddress">Email Address:</label>
-            <textarea rows="1" id="emailaddress"></textarea>
-            <br>
-            <h3>How would you rate your experience at Rock Hawk?</h3>
-            <label class="radio-inline"><input type="radio" name="optradio">Poor</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Fair</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Average</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Good</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Great</label>
-            <p>Any further comments?</p>
-            <div class="form-group">
-                <label for="comment">Comment:</label>
-                <br>
-                <textarea rows="5" cols="50" id="comment"></textarea>
-            </div>
-            <button type="button" class="btn" onclick = "sendTest()">Submit</button>
-        </div>
-    </div>
+    <style type="text/css">
+        form{
+            margin: 50px;
+        }
+    </style>
+
+    <form action="/action_page.php" id="form">
+        First name:<br>
+        <input type="text" name="Izuku"><br>
+        Last name:<br>
+        <input type="text" name="Midoriya"><br>
+        Email:<br>
+        <input type="email" name="allmight@gmail.com"><br>
+        How would you rate your experience?<br>
+        <!--<input type="radio" name="gender" value="1"> 1<br>
+        <input type="radio" name="gender" value="2"> 2<br>
+        <input type="radio" name="gender" value="3"> 3<br>
+        <input type="radio" name="gender" value="4"> 4<br>
+        <input type="radio" name="gender" value="5" checked> 5<br>-->
+        Additional Comments:<br>
+        <textarea name="comment" form="form">Enter text here...</textarea>
+
+    </form>
 
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-32">
