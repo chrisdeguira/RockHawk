@@ -54,10 +54,10 @@
         <i class="fa fa-remove"></i>
     </a>
     <h4 class="w3-bar-item"><b>Menu</b></h4>
-    <a class="w3-bar-item w3-button w3-hover-black" href="main">Home</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Live Map</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="feedback">Feedback</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="donate">Donate</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="index.html">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="livemap.html">Live Map</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="feedback.html">Feedback</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate.html">Donate</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -110,8 +110,8 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:33.34488, lng:-83.17503},
-          zoom: 14,
-          mapTypeId: 'satellite'
+          zoom: 15,
+          mapTypeId: 'hybrid'
         });
         infoWindow = new google.maps.InfoWindow;
 
@@ -135,35 +135,78 @@
           handleLocationError(false, infoWindow, map.getCenter());
         }
 
-        var markers = [
+       var markers = [
         {
           coords:{lat:33.34488, lng: -83.17503},
-          content:'<h1>Marker1</h1>'
+          content:'<h1>RockHawk</h1>'
         },
         {
           coords:{lat:33.345, lng: -83.177},
-          content:'<h1>Marker2</h1>'
+          content: "<div style='float:left'><img height=100px width=100px src='NorthernCardinal.jpg'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>" 
         },
         {
-          coords:{lat:33.355, lng: -83.18},
-          content:'<h1>Marker3</h1>'
+          coords:{lat:33.346, lng: -83.176},
+          content: "<div style='float:left'><img height=100px width=100px src='effigy.jpg'></div><div style='float:right; padding: 10px;'><b>Rock Hawk Effigy</b><br/>Some have estimated that the mound was built about 2,000 years ago by Native Americans.<br/></div>"
+        },
+        {
+          coords:{lat:33.347, lng: -83.174},
+          content: "<div style='float:left'><img height=100px width=100px src='sweetgum.jpg'></div><div style='float:right; padding: 10px;'><b>Sweet Gum Tree</b><br/>The sweet gum tree can be recognized by its leaves which have either five or seven lobes.<br/></div>"
         }
       ];
-      var flightPlanCoordinates = [
+
+       var flightPlanCoordinates1 = [
           {lat: 33.34488, lng: -83.17503},
-          {lat: 33.345, lng: -83.177},
-          {lat: 33.355, lng: -83.18},
-          {lat: 33.357, lng: -83.173}
+          {lat: 33.345, lng: -83.1753},
+          {lat: 33.3449, lng: -83.1754},
+          {lat: 33.3448, lng: -83.1756},
+          {lat: 33.3451, lng: -83.1758},
+          {lat: 33.3451, lng: -83.1765},
+          {lat: 33.3448, lng: -83.1768},
+          {lat: 33.3449, lng: -83.1769},
+          {lat: 33.345, lng: -83.177}
+
         ];
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
+         var flightPath1 = new google.maps.Polyline({
+          path: flightPlanCoordinates1,
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 10
         });
 
-        flightPath.setMap(map);
+        flightPath1.setMap(map);
+
+        var flightPlanCoordinates2 = [
+          {lat: 33.34488, lng: -83.17503},
+          {lat: 33.34503, lng: -83.1753},
+          {lat: 33.346, lng: -83.176}
+
+        ];
+        var flightPath2 = new google.maps.Polyline({
+          path: flightPlanCoordinates2,
+          geodesic: true,
+          strokeColor: '#FFFF00',
+          strokeOpacity: 1.0,
+          strokeWeight: 10
+        });
+
+        flightPath2.setMap(map);
+
+         var flightPlanCoordinates3 = [
+          {lat: 33.34488, lng: -83.17503},
+          {lat: 33.346, lng: -83.175},
+          {lat:33.347, lng: -83.174}
+
+        ];
+        var flightPath3 = new google.maps.Polyline({
+          path: flightPlanCoordinates3,
+          geodesic: true,
+          strokeColor: '#008000',
+          strokeOpacity: 1.0,
+          strokeWeight: 10
+        });
+
+        flightPath3.setMap(map);
 
       for(var i = 0; i<markers.length; i++){
         addMarker(markers[i]);

@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -27,53 +26,23 @@
     }
     body{
         background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
-        background-position: 100% 5%;
+        background-position: 100% 1%;
         background-size: 60%;
         background-repeat: no-repeat;
         background-attachment: scroll;
     }
-    textarea:focus {
-    border: 2px solid #555;
+    img{
+        height:90%;
+        width:auto;
     }
-    textarea{
-        width: 90%;
-        resize: none;
+    .w3-content{
+        height:100%;
+        width:auto;
     }
-    button:hover {opacity:1}
-    button {
-        background-color: brown;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        display: inline-block;
-        text-decoration: none;
-        cursor: pointer;
+    .w3-section{
+        height:100%;
+        width:auto;
     }
-
-
-    input[type=text] {
-    width: 130px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px; 
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
-input[type=text]:focus {
-    width: 100%;
-}
 </style>
 <body>
 
@@ -81,7 +50,7 @@ input[type=text]:focus {
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Feedback</a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk App Homepage</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
 </div>
@@ -92,49 +61,21 @@ input[type=text]:focus {
         <i class="fa fa-remove"></i>
     </a>
     <h4 class="w3-bar-item"><b>Menu</b></h4>
-    <a class="w3-bar-item w3-button w3-hover-black" href="livemap3.html">Live Map</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="index3.html">Home</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="donate3.html">Donate</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="index.html">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="livemap.html">Live Map</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="feedback.html">Feedback</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate.html">Donate</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-<div class="w3-main" style="margin-left:250px">
+<div class="w3-main" style="margin-left:255px; margin-top: 50px">
+    <h1>Make a Donation</h1>
 
-    <div class="w3-row w3-padding-64">
-        <div class="w3-twothird w3-container">
-
-            <form>
-                <input type="text" name="search" placeholder="Search..">
-            </form>
-            <h1>Feedback Survey</h1>
-            <label for="firstname">First Name:</label>
-            <textarea rows="1" id="firstname"></textarea>
-            <br></br>
-            <label for="lastname">Last Name:</label>
-            <textarea rows="1" id="lastname"></textarea>
-            <br></br>
-            <label for="emailaddress">Email Address:</label>
-            <textarea rows="1" id="emailaddress"></textarea>
-            <br></br>
-            <h3>How would you rate your experience at Rock Hawk?</h3>
-            <label class="radio-inline"><input type="radio" name="optradio">Poor</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Fair</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Average</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Good</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Great</label>
-            <p>Any further comments?</p>
-            <div class="form-group">
-                <label for="comment">Comment:</label>
-                <br></br>
-                <textarea rows="5" cols="50" id="comment"></textarea>
-            </div>
-            <button type="button" class="btn" onclick = "sendTest()">Submit</button>
-        </div>
-    </div>
-
+    <p>The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
+</div>
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-20">
             <h4>Developed by students at GCSU</h4>
@@ -168,6 +109,21 @@ input[type=text]:focus {
         overlayBg.style.display = "none";
     }
 </script>
+<script>
+var myIndex = 0;
+carousel();
 
+function carousel() {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    myIndex++;
+    if (myIndex > x.length) {myIndex = 1}    
+    x[myIndex-1].style.display = "block";  
+    setTimeout(carousel, 5000);    
+}
+</script>
 </body>
 </html>
