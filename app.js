@@ -7,8 +7,9 @@ var db = require('./db')
 //yellow marks for db opers
 var app=express();
 
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
+var mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+
 
 var publicPath=path.resolve(__dirname, "public");
 app.use("/styles",  express.static(__dirname + '/public/css'));
@@ -53,6 +54,30 @@ app.get('/test',function(req,res){
     res.sendFile(__dirname + "/public/test.html");
 });
 
+//--------- DB ACCESS ROUTES -----------
+
+
+var MongoClient = require('mongodb').MongoClient;
+var feedbackSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String
+});
+var Feedback = mongoose.model("Feedback", feedbackSchema);
+app.post("/sendFeedback",function(req, res) {
+    var data = new Feedback(req.body);
+    console.log(data);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("rockhawkdb");
+        dbo.collection("feedback").insertOne(data, function(err, res) {
+            if (err) throw err;
+            console.log("Feedback sent to database");
+            db.close();
+        });
+    });
+});
+
+
 
 app.use(function(req,res, next){
     //nnext is callback function afer this function is done
@@ -60,7 +85,7 @@ app.use(function(req,res, next){
     res.type("text/plain");
     res.status(404);
     res.send("404-Not Found");
-})
+});
 
 app.set('db',db);
 module.exports.app=app;

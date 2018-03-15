@@ -30,6 +30,7 @@
         "jquery": "3.3.1",
         "jquery.easing": "^1.4.1",
         "mongodb": "^3.0.4",
+        "mongoose": "^5.0.10",
         "nodejs": "0.0.0",
         "requirejs": "^2.3.5"
     },
