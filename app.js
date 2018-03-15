@@ -3,9 +3,10 @@ var http=require("http");
 var path=require("path");
 var bodyParser=require("body-Parser");
 var handlebars=require("express-handlebars").create({defaultLayout:"main"});
-var db = require('./db')
+var db = require('./db');
 //yellow marks for db opers
 var app=express();
+app.use(require('./routes/test'));
 
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -16,7 +17,6 @@ app.use("/styles",  express.static(__dirname + '/public/css'));
 app.use("/scripts", express.static(__dirname + '/public/js'));
 app.use("/images",  express.static(__dirname + '/public/resources'));
 app.use(express.static(publicPath));
-app.use(require('./routes/test'));
 
 var dbLink=require("./config.json");
 var url = dbLink.devServer.url;
@@ -27,7 +27,7 @@ db.connect(url, function(err) {
         process.exit(1);
     } else {
         var listener=http.createServer(app).listen(process.env.PORT||3000);
-        console.log('Server is listening at port'+listener.address().port);
+        console.log('Server is listening on port: '+listener.address().port);
     }
 });
 app.get("/",function(req,res){
@@ -49,9 +49,9 @@ app.get('/main',function(req,res){
     res.sendFile(__dirname + "/public/index.html");
 });
 
-app.get('/test',function(req,res){
-    console.log("send to the home page");
-    res.sendFile(__dirname + "/public/test.html");
+app.get('/donate',function(req,res){
+    console.log("send to the donate page");
+    res.sendFile(__dirname + "/public/donate.html");
 });
 
 //--------- DB ACCESS ROUTES -----------
