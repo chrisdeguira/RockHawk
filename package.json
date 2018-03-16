@@ -1,8 +1,12 @@
 {
-    "title": "Scrolling Nav",
-    "name": "startbootstrap-scrolling-nav",
+    "title": "RockHawk",
+    "name": "rockhawk",
     "version": "4.0.0",
-    "description": "A smooth scrolling navigation HTML template built with Bootstrap",
+    "description": "",
+    "scripts": {
+        "start": "node app.js",
+        "test": "node app.js"
+    },
     "keywords": [
         "css",
         "sass",
@@ -19,14 +23,16 @@
     "license": "MIT",
     "author": "Start Bootstrap",
     "contributors": [
-        "David Miller (http://davidmiller.io/)"
+        "Chris DeGuira, Andrew Hendricks, Daniel Standish"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/BlackrockDigital/startbootstrap-scrolling-nav.git"
+        "url": "https://github.com/chrisdeguira/RockHawk.git"
     },
     "dependencies": {
+        "body-parser": "^1.18.2",
         "bootstrap": "4.0.0",
+        "express": "^4.16.3",
         "jquery": "3.3.1",
         "jquery.easing": "^1.4.1",
         "mongodb": "^3.0.4",

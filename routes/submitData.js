@@ -2,7 +2,7 @@ var express = require('express')
     , router = express.Router();
 var db = require('../db');
 var ObjectId = require('mongodb').ObjectID;
-var bodyParser=require("body-Parser");
+var bodyParser=require("body-parser");
 
 router.post('/test', function(req, res) {
 

@@ -1,4 +1,4 @@
-var bodyParser=require("body-Parser");
+var bodyParser=require("body-parser");
 var express = require('express')
     , router = express.Router();
 var db = require('../db');

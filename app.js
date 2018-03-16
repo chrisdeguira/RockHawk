@@ -1,8 +1,7 @@
 var express=require("express");
 var http=require("http");
 var path=require("path");
-var bodyParser=require("body-Parser");
-var handlebars=require("express-handlebars").create({defaultLayout:"main"});
+var bodyParser=require("body-parser");
 var db = require('./db');
 //yellow marks for db opers
 var app=express();
