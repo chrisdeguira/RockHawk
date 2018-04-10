@@ -42,7 +42,7 @@
 <!-- Navbar -->
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-        <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+        <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
         <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Live Map</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
@@ -64,10 +64,9 @@
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
 <div id="map"></div>
-
-
-
+<div class="w3-main" style="margin-left:250px">
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-20">
             <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
@@ -142,19 +141,19 @@
         },
         {
           coords:{lat:33.345, lng: -83.177},
-          content: "<div style='float:left'><img height=100px width=100px src='NorthernCardinal.jpg'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>" 
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/NorthernCardinal.jpg'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>"
         },
         {
           coords:{lat:33.346, lng: -83.176},
-          content: "<div style='float:left'><img height=100px width=100px src='effigy.jpg'></div><div style='float:right; padding: 10px;'><b>Rock Hawk Effigy</b><br/>Some have estimated that the mound was built about 2,000 years ago by Native Americans.<br/></div>"
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/effigy.jpg'></div><div style='float:right; padding: 10px;'><b>Rock Hawk Effigy</b><br/>Some have estimated that the mound was built about 2,000 years ago by Native Americans.<br/></div>"
         },
         {
           coords:{lat:33.347, lng: -83.174},
-          content: "<div style='float:left'><img height=100px width=100px src='sweetgum.jpg'></div><div style='float:right; padding: 10px;'><b>Sweet Gum Tree</b><br/>The sweet gum tree can be recognized by its leaves which have either five or seven lobes.<br/></div>"
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/sweetgum.jpg'></div><div style='float:right; padding: 10px;'><b>Sweet Gum Tree</b><br/>The sweet gum tree can be recognized by its leaves which have either five or seven lobes.<br/></div>"
         },
         {
           coords:{lat: 33.353, lng: -83.1785},
-          content: "<div style='float:left'><img height=100px width=100px src='lake.jpg'></div><div style='float:right; padding: 10px;'><b>Lake Oconee</b>"
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/lake.jpg'></div><div style='float:right; padding: 10px;'><b>Lake Oconee</b>"
         }
       ];
 

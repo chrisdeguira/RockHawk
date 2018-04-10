@@ -38,7 +38,7 @@ app.get('/feedback',function(req,res){
     res.sendFile(__dirname + "/public/feedback.html");
 });
 
-app.get('/liveMap',function(req,res){
+app.get('/livemap',function(req,res){
     console.log("send to live map page");
     res.sendFile(__dirname + "/public/livemap.html");
 });
@@ -51,6 +51,11 @@ app.get('/main',function(req,res){
 app.get('/donate',function(req,res){
     console.log("send to the donate page");
     res.sendFile(__dirname + "/public/donate.html");
+});
+
+app.get('/view',function(req,res){
+    console.log("send to the feedback viewing page");
+    res.sendFile(__dirname + "/public/view.html");
 });
 
 //--------- DB ACCESS ROUTES -----------

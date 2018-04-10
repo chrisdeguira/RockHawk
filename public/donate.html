@@ -7,13 +7,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'GA_TRACKING_ID');
+    gtag('config', 'GA_TRACKING_ID');
 </script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
@@ -26,22 +27,46 @@
     }
     body{
         background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
-        background-position: 100% 1%;
+        background-position: 100% 5%;
         background-size: 60%;
         background-repeat: no-repeat;
         background-attachment: scroll;
     }
-    img{
-        height:90%;
-        width:auto;
+    input[type=text]:focus {
+        border: 2px solid #555;
     }
-    .w3-content{
-        height:100%;
-        width:auto;
+    input[type=text]{
+        width: 90%;
+        resize: none;
     }
-    .w3-section{
-        height:100%;
-        width:auto;
+    input[type=email]:focus {
+        border: 2px solid #555;
+    }
+    input[type=email]{
+        width: 90%;
+        resize: none;
+    }
+    input[type=submit]:hover {opacity:1}
+    input[type=submit]{
+        background-color: brown;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    textarea:focus {
+        border: 2px solid #555;
+    }
+    textarea{
+        width: 90%;
+        resize: none;
     }
 </style>
 <body>
@@ -49,8 +74,8 @@
 <!-- Navbar -->
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-        <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk App Homepage</a>
+        <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Donation</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
 </div>
@@ -71,13 +96,47 @@
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-<div class="w3-main" style="margin-left:255px; margin-top: 50px">
-    <h1>Make a Donation</h1>
+<div class="w3-main" style="margin-left:250px">
 
-    <p>The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
-</div>
+    <style type="text/css">
+        form{
+            margin: 50px;
+        }
+        h1{
+            margin-top: 50px;
+        }
+    </style>
+
+    <h1>Make a Donation</h1>
+    <img style="display: block; margin-left: auto; margin-right: auto;" src="https://media.istockphoto.com/photos/photo-of-a-family-going-for-picnic-picture-id511581106?k=6&m=511581106&s=612x612&w=0&h=hxnBCL1SH_rH_1X4LTJujlt2uIpclTjYIHhTW8FF9l4=" alt="wholesome family picnic" align="middle">
+
+    <p style="text-align: center;">The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+        <!-- Identify your business so that you can collect the payments. -->
+        <input type="hidden" name="rockhawk"
+               value="larrymoore@plantationcable.net">
+
+        <!-- Specify a Donate button. -->
+        <input type="hidden" name="cmd" value="_donations">
+
+        <!-- Specify details about the contribution -->
+        <input type="hidden" name="item_name" value="Friends of the Park">
+        <input type="hidden" name="item_number" value="Fall Cleanup Campaign">
+        <input type="hidden" name="currency_code" value="USD">
+
+        <!-- Display the payment button. -->
+        <input style="display: block; margin-left: auto; margin-right: auto; width: 15%;" type="image" name="submit"
+               src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
+               alt="Donate">
+        <img alt="" width="1" height="1"
+             src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+
+    </form>
+
     <footer id="myFooter">
-        <div class="w3-container w3-theme-l2 w3-padding-20">
+        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center">
             <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
         </div>
     </footer>
@@ -109,21 +168,6 @@
         overlayBg.style.display = "none";
     }
 </script>
-<script>
-var myIndex = 0;
-carousel();
 
-function carousel() {
-    var i;
-    var x = document.getElementsByClassName("mySlides");
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";  
-    }
-    myIndex++;
-    if (myIndex > x.length) {myIndex = 1}    
-    x[myIndex-1].style.display = "block";  
-    setTimeout(carousel, 5000);    
-}
-</script>
 </body>
 </html>
