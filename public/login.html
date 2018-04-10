@@ -10,11 +10,11 @@
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'GA_TRACKING_ID');
+  gtag('config', 'GA_TRACKING_ID');
 </script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
@@ -33,17 +33,21 @@
         background-attachment: scroll;
     }
     input[type=text]:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     input[type=text]{
-        width: 90%;
+        width: 50%;
+        resize: none;
+    }
+    input[type=password]{
+        width: 50%;
         resize: none;
     }
     input[type=email]:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     input[type=email]{
-        width: 90%;
+        width: 50%;
         resize: none;
     }
     input[type=submit]:hover {opacity:1}
@@ -62,12 +66,12 @@
         cursor: pointer;
     }
     textarea:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     textarea{
         width: 90%;
         resize: none;
-    }
+}
 </style>
 <body>
 
@@ -75,7 +79,7 @@
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Donation</a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Login Page</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
 </div>
@@ -90,7 +94,6 @@
     <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Live Map</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="feedback">Feedback</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="donate">Donate</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="loginPage">Login</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -108,33 +111,35 @@
         }
     </style>
 
-    <h1>Make a Donation</h1>
-    <img style="display: block; margin-left: auto; margin-right: auto;" src="https://media.istockphoto.com/photos/photo-of-a-family-going-for-picnic-picture-id511581106?k=6&m=511581106&s=612x612&w=0&h=hxnBCL1SH_rH_1X4LTJujlt2uIpclTjYIHhTW8FF9l4=" alt="wholesome family picnic" align="middle">
+    <h1>Please Login</h1>
 
-    <p style="text-align: center;">The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
-
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-
-        <!-- Identify your business so that you can collect the payments. -->
-        <input type="hidden" name="rockhawk"
-               value="larrymoore@plantationcable.net">
-
-        <!-- Specify a Donate button. -->
-        <input type="hidden" name="cmd" value="_donations">
-
-        <!-- Specify details about the contribution -->
-        <input type="hidden" name="item_name" value="Friends of the Park">
-        <input type="hidden" name="item_number" value="Fall Cleanup Campaign">
-        <input type="hidden" name="currency_code" value="USD">
-
-        <!-- Display the payment button. -->
-        <input style="display: block; margin-left: auto; margin-right: auto; width: 15%;" type="image" name="submit"
-               src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
-               alt="Donate">
-        <img alt="" width="1" height="1"
-             src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
-
+    <form method="get" action="login">
+        <p style="font-size: 18px;">Username:</p>
+        <input type="text" name="username"><br>
+        <p style="font-size: 18px;">Password:</p>
+        <input type="password" name="password"><br>
+        <br><br>
+        <input type="submit" name="submit" value="Login">
     </form>
+    <pre id="output">
+
+    </pre>
+
+    <script>
+    	function make_json(form){
+    		var json={
+    			"firstName": form.firstName.value,
+    			"lastName": form.lastName.value,
+    			"email": form.email.value,
+    			"rating": form.rating.value,
+    			"comment": form.comment.value
+
+    		};
+    		var html = JSON.stringify(json,0,4) ;
+    		document.getElementById('output').innerHTML=html;
+    		return false;
+    	}
+    </script>
 
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-20 w3-center">
