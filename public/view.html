@@ -16,6 +16,7 @@
 
     gtag('config', 'GA_TRACKING_ID');
 </script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
     .w3-sidebar {
@@ -137,71 +138,8 @@
     </style>
 
     <h1>View Feedback</h1>
-    <p>Two styles of table here. one would view each survey table-by-table, the other views horizontally all in one table.</p>
 
-    <input type="submit" onclick="CreateTableFromJSON()" value="View Feedback"/>
     <div id="showData"></div>
-    <!--<table id="allinone">
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Rating</th>
-            <th>Comments</th>
-        </tr>
-        <tr>
-            <td>Daniel Standish</td>
-            <td>danstan1029@gmail.com</td>
-            <td>5</td>
-            <td>This is a park and it was nice</td>
-        </tr>
-        <tr>
-            <td>Andrew Hendricks</td>
-            <td>ahendricks@gmail.com</td>
-            <td>4</td>
-            <td>My name is andrew and I thought this park was pretty good</td>
-        </tr>
-        <tr>
-            <td>Chris DeGuira</td>
-            <td>chris.deguira@bobcats.gcsu.edu</td>
-            <td>1</td>
-            <td>Not a fan! This park stinks.</td>
-        </tr>
-    </table>
-    <br><br>-->
-
-  <!--  <table id="solo">
-        <tr>
-            <th>Daniel Standish</th>
-        </tr>
-        <tr>
-            <td>danstan1029@gmail.com</td>
-        </tr>
-        <tr>
-            <td>5</td>
-        </tr>
-        <tr>
-            <td>This park was great! Loved it :)</td>
-        </tr>
-    </table>
-
-    <br></br>
-
-    <table id="solo">
-        <tr>
-            <th>Andrew Hendricks</th>
-        </tr>
-        <tr>
-            <td>ahendricks@gmail.com</td>
-        </tr>
-        <tr>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>I think this park was pretty ok</td>
-        </tr>
-    </table>
-
-    <br></br>-->
 
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-20 w3-center w3-bottom">
@@ -213,59 +151,52 @@
 </div>
 
 <script>
-    function CreateTableFromJSON(){
-        var myData=[
-    {
-        "Name": "Daniel Standish",
-        "eMail": "danstan1029@gmail.com",
-        "Rating": 5,
-        "Comment": "Park was great"
-    },
-    {
-        "Name": "Chris DeGuira",
-        "eMail": "cdawg@gmail.com",
-        "Rating": 5,
-        "Comment": "I love parks"
-    },
-    {
-        "Name": "Andrew Hendricks",
-        "eMail": "ahendricks@gmail.com",
-        "Rating": 5,
-        "Comment": "Wow what a park"
-    },
-    ]
+    function createTableFromJSON(){
+        $.getJSON( "getFeedback", {
+            format: "json"
+        })
+            .done(function( data ) {
+                var divContainer = document.getElementById("showData");
+                var myData = data;
+                console.log(myData);
+                var col=[];
+                if (myData === undefined || myData.length == 0) {
+                    divContainer.outerHTML = "<h2>There is currently no feedback</h2>";
+                    return;
+                }
+                for(var i=0;i<myData.length;i++){
+                    delete myData[i]['_id'];
+                    for(var key in myData[i]){
+                        if(col.indexOf(key)=== -1){
+                            col.push(key);
+                        }
+                    }
+                }
 
-    var col=[];
-    for(var i=0;i<myData.length;i++){
-        for(var key in myData[i]){
-            if(col.indexOf(key)=== -1){
-                col.push(key);
-            }
-        }
+                var table=document.createElement("table");
+
+                var tr=table.insertRow(-1);
+                for(var i =0; i<col.length;i++){
+                    var th=document.createElement("th");
+                    th.innerHTML=col[i];
+                    tr.appendChild(th);
+                }
+                for(var i=0;i<myData.length;i++){
+                    tr = table.insertRow(-1);
+
+                    for(var j=0;j<col.length;j++){
+                        var tabCell=tr.insertCell(-1);
+                        tabCell.innerHTML=myData[i][col[j]];
+                    }
+                }
+
+                divContainer.innerHTML="";
+                divContainer.appendChild(table);
+            });
     }
 
-    var table=document.createElement("table");
 
-    var tr=table.insertRow(-1);
-    for(var i =0; i<col.length;i++){
-        var th=document.createElement("th");
-        th.innerHTML=col[i];
-        tr.appendChild(th);
-    }
-    for(var i=0;i<myData.length;i++){
-        tr = table.insertRow(-1);
-
-        for(var j=0;j<col.length;j++){
-            var tabCell=tr.insertCell(-1);
-            tabCell.innerHTML=myData[i][col[j]];
-        }
-    }
-
-    var divContainer=document.getElementById("showData");
-    divContainer.innerHTML="";
-    divContainer.appendChild(table);
-
-    }
+   createTableFromJSON();
 
     // Get the Sidebar
     var mySidebar = document.getElementById("mySidebar");

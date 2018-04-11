@@ -35,6 +35,15 @@ db.connect(url, function(err) {
         console.log('Server is listening on port: '+listener.address().port);
     }
 });
+
+var auth = function(req, res, next) {
+    if (req.session && req.session.user === "staffMember" && req.session.admin)
+        return next();
+    else
+        return res.sendStatus(401);
+};
+
+
 app.get("/",function(req,res){
     res.sendFile(__dirname + "/public/index.html");
 });
@@ -57,6 +66,11 @@ app.get('/main',function(req,res){
 app.get('/donate',function(req,res){
     console.log("send to the donate page");
     res.sendFile(__dirname + "/public/donate.html");
+});
+
+app.get('/test',function(req,res){
+    console.log("send to the test page");
+    res.sendFile(__dirname + "/public/test.html");
 });
 
 app.get('/loginPage',function(req,res){
@@ -94,14 +108,20 @@ app.post("/sendFeedback",function(req, res) {
     });
 });
 
+app.get("/getFeedback",function(req, res) {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("rockhawkdb");
+        dbo.collection("feedback").find({}).toArray(function(err, result){
+            if (err) throw err;
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
 //-----------------LOGIN/LOGOUT ROUTES--------------------
 
-var auth = function(req, res, next) {
-    if (req.session && req.session.user === "staffMember" && req.session.admin)
-        return next();
-    else
-        return res.sendStatus(401);
-};
 
 // Login endpoint
 app.get('/login', function (req, res) {
@@ -120,7 +140,6 @@ app.get('/logout', function (req, res) {
     res.redirect("main");
 });
 
-// Get content endpoint
 app.get('/options', auth, function (req, res) {
     console.log("send a staff member to the staff tools page");
     res.sendFile(__dirname + "/public/options.html");
