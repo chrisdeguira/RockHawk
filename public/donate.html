@@ -46,6 +46,21 @@
         width: 90%;
         resize: none;
     }
+    button:hover{opacity:1;}
+    button{
+        background-color: brown;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
     input[type=submit]:hover {opacity:1}
     input[type=submit]{
         background-color: brown;
@@ -113,28 +128,7 @@
 
     <p style="text-align: center;">The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
 
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-
-        <!-- Identify your business so that you can collect the payments. -->
-        <input type="hidden" name="rockhawk"
-               value="larrymoore@plantationcable.net">
-
-        <!-- Specify a Donate button. -->
-        <input type="hidden" name="cmd" value="_donations">
-
-        <!-- Specify details about the contribution -->
-        <input type="hidden" name="item_name" value="Friends of the Park">
-        <input type="hidden" name="item_number" value="Fall Cleanup Campaign">
-        <input type="hidden" name="currency_code" value="USD">
-
-        <!-- Display the payment button. -->
-        <input style="display: block; margin-left: auto; margin-right: auto; width: 15%;" type="image" name="submit"
-               src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
-               alt="Donate">
-        <img alt="" width="1" height="1"
-             src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
-
-    </form>
+    <div style="text-align: center;"><button onclick="window.location.href='https://www.paypal.com/donate/?token=MFS0wwDasYIhNuIYaYohnPukKG6ESBqJUV8vaCUPfwRMkCOayzg5559PJN--QW-YQLWT4m&country.x=US&locale.x=US'">Donate</button></div>
 
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-20 w3-center">
