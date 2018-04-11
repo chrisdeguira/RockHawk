@@ -10,11 +10,11 @@
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'GA_TRACKING_ID');
+  gtag('config', 'GA_TRACKING_ID');
 </script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
@@ -33,20 +33,20 @@
         background-attachment: scroll;
     }
     input[type=text]:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     input[type=text]{
-        width: 90%;
+        width: 50%;
         resize: none;
     }
     input[type=email]:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     input[type=email]{
-        width: 90%;
+        width: 50%;
         resize: none;
     }
-    input[type=submit]:hover {opacity:0.5}
+    input[type=submit]:hover {opacity:1}
     input[type=submit]{
         background-color: brown;
         border: none;
@@ -62,40 +62,12 @@
         cursor: pointer;
     }
     textarea:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     textarea{
         width: 90%;
         resize: none;
-    }
-    #allinone,#solo{
-        border-collapse: collapse;
-        width: 100%;
-    }
-    td, th{
-        border-bottom: 1px solid #ddd;
-        padding: 10px;
-    }
-    tr:nth-child(even){background-color: #f2f2f2;}
-    tr:nth-child(odd){background-color: #f2fAff;}
-    tr:hover {background-color: #ddd;}
-    th{
-        padding-top:12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color:brown;
-        color: white;
-    }
-    #solo {
-        margin-left:auto;
-        margin-right:auto;
-        width: 50%;
-    }
-    footer{
-        bottom:0;
-        width:100%;
-        height:60px;
-    }
+}
 </style>
 <body>
 
@@ -103,7 +75,7 @@
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Feedback</a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Staff Tools</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
 </div>
@@ -136,73 +108,23 @@
         }
     </style>
 
-    <h1>View Feedback</h1>
-    <p>Two styles of table here. one would view each survey table-by-table, the other views horizontally all in one table.</p>
+    <h1>Select an Option</h1>
 
-    <table id="allinone">
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Rating</th>
-            <th>Comments</th>
-        </tr>
-        <tr>
-            <td>Daniel Standish</td>
-            <td>danstan1029@gmail.com</td>
-            <td>5</td>
-            <td>This is a park and it was nice</td>
-        </tr>
-        <tr>
-            <td>Andrew Hendricks</td>
-            <td>ahendricks@gmail.com</td>
-            <td>4</td>
-            <td>My name is andrew and I thought this park was pretty good</td>
-        </tr>
-        <tr>
-            <td>Chris DeGuira</td>
-            <td>chris.deguira@bobcats.gcsu.edu</td>
-            <td>1</td>
-            <td>Not a fan! This park stinks.</td>
-        </tr>
-    </table>
-    <br><br>
-
-    <table id="solo">
-        <tr>
-            <th>Daniel Standish</th>
-        </tr>
-        <tr>
-            <td>danstan1029@gmail.com</td>
-        </tr>
-        <tr>
-            <td>5</td>
-        </tr>
-        <tr>
-            <td>This park was great! Loved it :)</td>
-        </tr>
-    </table>
-
-    <br></br>
-
-    <table id="solo">
-        <tr>
-            <th>Andrew Hendricks</th>
-        </tr>
-        <tr>
-            <td>ahendricks@gmail.com</td>
-        </tr>
-        <tr>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>I think this park was pretty ok</td>
-        </tr>
-    </table>
-
-    <br></br>
+    <form method="get" action="view">
+        <input class="w3-button w3-blue" type="submit" value="View Feedback">
+    </form>
+    <form action="http://google.com" target="_blank">
+        <input class="w3-button w3-blue" type="submit" value="View Google Analytics">
+    </form>
+    <form action="http://google.com" target="_blank">
+        <input class="w3-button w3-blue" type="submit" value="View Donation Information">
+    </form>
+    <form method="get" action="logout">
+        <input class="w3-button w3-red" type="submit" value="Logout">
+    </form>
 
     <footer id="myFooter">
-        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center">
+        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center w3-bottom">
             <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
         </div>
     </footer>

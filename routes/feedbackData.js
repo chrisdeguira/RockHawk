@@ -32,6 +32,7 @@ app.post("/sendFeedback", (req, res) => {
         });
     });
 });
+module.exports = router;
 
 
 
