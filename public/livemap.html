@@ -106,7 +106,8 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:33.34488, lng:-83.17503},
-          zoom: 14
+          zoom: 20,
+          mapTypeId: 'hybrid'
         });
         infoWindow = new google.maps.InfoWindow;
 
@@ -141,7 +142,7 @@
           content:'<h1>Marker2</h1>'
         },
         {
-          coords:{lat:33.355, lng: -83.18},
+          coords:{lat:33.346, lng: -83.176},
           content:'<h1>Marker3</h1>'
         }
       ];
@@ -150,21 +151,43 @@
         addMarker(markers[i]);
       }
 
-      var flightPlanCoordinates = [
+      var flightPlanCoordinates1 = [
           {lat: 33.34488, lng: -83.17503},
-          {lat: 33.345, lng: -83.177},
-          {lat: 33.355, lng: -83.18},
-          {lat: 33.357, lng: -83.173}
+          {lat: 33.345, lng: -83.1753},
+          {lat: 33.3449, lng: -83.1754},
+          {lat: 33.3448, lng: -83.1756},
+          {lat: 33.3451, lng: -83.1758},
+          {lat: 33.3451, lng: -83.1765},
+          {lat: 33.3448, lng: -83.1768},
+          {lat: 33.3449, lng: -83.1769},
+          {lat: 33.345, lng: -83.177}
+
         ];
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
+        var flightPath1 = new google.maps.Polyline({
+          path: flightPlanCoordinates1,
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 10
         });
 
-        flightPath.setMap(map);
+        flightPath1.setMap(map);
+
+        var flightPlanCoordinates2 = [
+          {lat: 33.34488, lng: -83.17503},
+          {lat: 33.34503, lng: -83.1753},
+          {lat: 33.346, lng: -83.176}
+
+        ];
+        var flightPath2 = new google.maps.Polyline({
+          path: flightPlanCoordinates2,
+          geodesic: true,
+          strokeColor: '#FF4500',
+          strokeOpacity: 1.0,
+          strokeWeight: 10
+        });
+
+        flightPath2.setMap(map);
 
 
       function addMarker(properties){
