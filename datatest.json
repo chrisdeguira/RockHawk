@@ -1,0 +1,20 @@
+[
+	{
+		"name": "Daniel Standish",
+		"email": "danstan1029@gmail.com",
+		"rating": 5,
+		"comment": "Park was great"
+	},
+	{
+		"name": "Chris DeGuira",
+		"email": "cdawg@gmail.com",
+		"rating": 5,
+		"comment": "I love parks"
+	},
+	{
+		"name": "Andrew Hendricks",
+		"email": "ahendricks@gmail.com",
+		"rating": 5,
+		"comment": "Wow what a park"
+	},
+]

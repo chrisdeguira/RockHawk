@@ -138,7 +138,9 @@
     <h1>View Feedback</h1>
     <p>Two styles of table here. one would view each survey table-by-table, the other views horizontally all in one table.</p>
 
-    <table id="allinone">
+    <input type="submit" onclick="CreateTableFromJSON()" value="View Feedback"/>
+    <div id="showData"></div>
+    <!--<table id="allinone">
         <tr>
             <th>Name</th>
             <th>Email</th>
@@ -164,9 +166,9 @@
             <td>Not a fan! This park stinks.</td>
         </tr>
     </table>
-    <br><br>
+    <br><br>-->
 
-    <table id="solo">
+  <!--  <table id="solo">
         <tr>
             <th>Daniel Standish</th>
         </tr>
@@ -198,10 +200,10 @@
         </tr>
     </table>
 
-    <br></br>
+    <br></br>-->
 
     <footer id="myFooter">
-        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center">
+        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center w3-bottom">
             <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
         </div>
     </footer>
@@ -210,6 +212,60 @@
 </div>
 
 <script>
+    function CreateTableFromJSON(){
+        var myData=[
+    {
+        "Name": "Daniel Standish",
+        "eMail": "danstan1029@gmail.com",
+        "Rating": 5,
+        "Comment": "Park was great"
+    },
+    {
+        "Name": "Chris DeGuira",
+        "eMail": "cdawg@gmail.com",
+        "Rating": 5,
+        "Comment": "I love parks"
+    },
+    {
+        "Name": "Andrew Hendricks",
+        "eMail": "ahendricks@gmail.com",
+        "Rating": 5,
+        "Comment": "Wow what a park"
+    },
+    ]
+
+    var col=[];
+    for(var i=0;i<myData.length;i++){
+        for(var key in myData[i]){
+            if(col.indexOf(key)=== -1){
+                col.push(key);
+            }
+        }
+    }
+
+    var table=document.createElement("table");
+
+    var tr=table.insertRow(-1);
+    for(var i =0; i<col.length;i++){
+        var th=document.createElement("th");
+        th.innerHTML=col[i];
+        tr.appendChild(th);
+    }
+    for(var i=0;i<myData.length;i++){
+        tr = table.insertRow(-1);
+
+        for(var j=0;j<col.length;j++){
+            var tabCell=tr.insertCell(-1);
+            tabCell.innerHTML=myData[i][col[j]];
+        }
+    }
+
+    var divContainer=document.getElementById("showData");
+    divContainer.innerHTML="";
+    divContainer.appendChild(table);
+
+    }
+
     // Get the Sidebar
     var mySidebar = document.getElementById("mySidebar");
 
