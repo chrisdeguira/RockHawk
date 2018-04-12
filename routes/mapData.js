@@ -24,3 +24,5 @@ app.listen(port, function() {
 });
 
 getMarkers();
+
+module.exports = router;

@@ -10,11 +10,11 @@
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'GA_TRACKING_ID');
+  gtag('config', 'GA_TRACKING_ID');
 </script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
@@ -32,44 +32,23 @@
         background-repeat: no-repeat;
         background-attachment: scroll;
     }
-    .row{
-        display:flex;
-        flex-wrap: wrap;
-        padding:0 4px;
-    }
-    .row img{
-        height:25%;
-        width:25%;
-        border-radius: 10px;
-    }
     input[type=text]:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     input[type=text]{
-        width: 90%;
+        width: 50%;
+        resize: none;
+    }
+    input[type=password]{
+        width: 50%;
         resize: none;
     }
     input[type=email]:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     input[type=email]{
-        width: 90%;
+        width: 50%;
         resize: none;
-    }
-    button:hover{opacity:1;}
-    button{
-        background-color: brown;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        display: inline-block;
-        text-decoration: none;
-        cursor: pointer;
     }
     input[type=submit]:hover {opacity:1}
     input[type=submit]{
@@ -87,12 +66,12 @@
         cursor: pointer;
     }
     textarea:focus {
-        border: 2px solid #555;
+    border: 2px solid #555;
     }
     textarea{
         width: 90%;
         resize: none;
-    }
+}
 </style>
 <body>
 
@@ -100,7 +79,7 @@
 <div class="w3-top">
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Donation</a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Login Page</a>
         <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
     </div>
 </div>
@@ -115,7 +94,6 @@
     <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Live Map</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="feedback">Feedback</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="donate">Donate</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="loginPage">Login</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -133,24 +111,38 @@
         }
     </style>
 
-    <h1>Make a Donation</h1>
-    <div class="row">
-    <img style="display: block; margin-left: auto; margin-right: auto;" src="./resources/3.jpg" alt="donate!" align="middle">
-    <img style="display: block; margin-left: auto; margin-right: auto;" src="./resources/2.jpg" alt="donate!" align="middle">
-    <img style="display: block; margin-left: auto; margin-right: auto;" src="./resources/6.jpg" alt="donate!" align="middle">
-    <img style="display: block; margin-left: auto; margin-right: auto;" src="./resources/7.jpg" alt="donate!" align="middle">
-    </div>
+    <h1>Please Login</h1>
 
-    <h2 style="text-align: center; font-family: Arial Black;">WE NEED YOUR SUPPORT!</h2>
+    <form method="get" action="login">
+        <p style="font-size: 18px;">Username:</p>
+        <input type="text" name="username"><br>
+        <p style="font-size: 18px;">Password:</p>
+        <input type="password" name="password"><br>
+        <br><br>
+        <input type="submit" name="submit" value="Login">
+    </form>
+    <pre id="output">
 
-    <p style="text-align: center;">The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
-    <h5 style="text-align: center;">Rock Hawk relies on donations from its visitors, and every cent counts.</h5>
+    </pre>
 
-    <div style="text-align: center;"><button onclick="window.location.href='https://www.paypal.com/donate/?token=MFS0wwDasYIhNuIYaYohnPukKG6ESBqJUV8vaCUPfwRMkCOayzg5559PJN--QW-YQLWT4m&country.x=US&locale.x=US'">Donate</button></div>
+    <script>
+    	function make_json(form){
+    		var json={
+    			"firstName": form.firstName.value,
+    			"lastName": form.lastName.value,
+    			"email": form.email.value,
+    			"rating": form.rating.value,
+    			"comment": form.comment.value
 
+    		};
+    		var html = JSON.stringify(json,0,4) ;
+    		document.getElementById('output').innerHTML=html;
+    		return false;
+    	}
+    </script>
 
     <footer id="myFooter">
-        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center w3-bottom">
+        <div class="w3-container w3-theme-l2 w3-padding-20 w3-center">
             <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
         </div>
     </footer>

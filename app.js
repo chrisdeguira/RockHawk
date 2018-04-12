@@ -1,4 +1,5 @@
 var express=require("express");
+var session=require("express-session");
 var http=require("http");
 var path=require("path");
 var bodyParser=require("body-parser");
@@ -6,6 +7,11 @@ var db = require('./db');
 //yellow marks for db opers
 var app=express();
 app.use(require('./routes/test'));
+app.use(session({
+    secret: 'LJN92-20Vs-A1dl2KX',
+    resave: true,
+    saveUninitialized: true
+}));
 
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -53,9 +59,12 @@ app.get('/donate',function(req,res){
     res.sendFile(__dirname + "/public/donate.html");
 });
 
-app.get('/view',function(req,res){
-    console.log("send to the feedback viewing page");
-    res.sendFile(__dirname + "/public/view.html");
+app.get('/loginPage',function(req,res){
+    if (req.session && req.session.user === "staffMember" && req.session.admin) {
+        res.redirect("options");
+    }
+    console.log("send to the login page");
+    res.sendFile(__dirname + "/public/login.html");
 });
 
 //--------- DB ACCESS ROUTES -----------
@@ -85,6 +94,43 @@ app.post("/sendFeedback",function(req, res) {
     });
 });
 
+//-----------------LOGIN/LOGOUT ROUTES--------------------
+
+var auth = function(req, res, next) {
+    if (req.session && req.session.user === "staffMember" && req.session.admin)
+        return next();
+    else
+        return res.sendStatus(401);
+};
+
+// Login endpoint
+app.get('/login', function (req, res) {
+    if (!req.query.username || !req.query.password) {
+        res.redirect("loginPage");
+    } else if(req.query.username === "username" && req.query.password === "password") {
+        req.session.user = "staffMember";
+        req.session.admin = true;
+        res.redirect("options");
+    }
+});
+
+// Logout endpoint
+app.get('/logout', function (req, res) {
+    req.session.destroy();
+    res.redirect("main");
+});
+
+// Get content endpoint
+app.get('/options', auth, function (req, res) {
+    console.log("send a staff member to the staff tools page");
+    res.sendFile(__dirname + "/public/options.html");
+});
+app.get('/view', auth, function (req, res) {
+    console.log("send a staff member to the feedback viewing page");
+    res.sendFile(__dirname + "/public/view.html");
+});
+
+//----------------------------------------------------
 
 
 app.use(function(req,res, next){
