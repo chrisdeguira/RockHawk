@@ -1,6 +1,6 @@
 {
   "devServer":
   {
-    "url":"mongodb://rockhawk:teamrockers@rockhawk-shard-00-00-fmxoq.mongodb.net:27017,rockhawk-shard-00-01-fmxoq.mongodb.net:27017,rockhawk-shard-00-02-fmxoq.mongodb.net:27017/test?ssl=true&replicaSet=RockHawk-shard-0&authSource=admin"
+    "url":"mongodb://rockhawk:teamrockers@rockhawk-shard-00-00-fmxoq.mongodb.net:27017,rockhawk-shard-00-01-fmxoq.mongodb.net:27017,rockhawk-shard-00-02-fmxoq.mongodb.net:27017/rockhawkdb?ssl=true&replicaSet=RockHawk-shard-0&authSource=admin"
   }
 }
