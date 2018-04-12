@@ -158,7 +158,6 @@
             .done(function( data ) {
                 var divContainer = document.getElementById("showData");
                 var myData = data;
-                console.log(myData);
                 var col=[];
                 if (myData === undefined || myData.length == 0) {
                     divContainer.outerHTML = "<h2>There is currently no feedback</h2>";

@@ -120,6 +120,30 @@ app.get("/getFeedback",function(req, res) {
     });
 });
 
+app.get("/getMarkers",function(req, res) {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("rockhawkdb");
+        dbo.collection("mapMarkers").find({}).toArray(function(err, result){
+            if (err) throw err;
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
+app.get("/getTrails",function(req, res) {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("rockhawkdb");
+        dbo.collection("mapTrails").find({}).toArray(function(err, result){
+            if (err) throw err;
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
 //-----------------LOGIN/LOGOUT ROUTES--------------------
 
 
