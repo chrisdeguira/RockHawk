@@ -6,7 +6,7 @@
   {
       coords:{lat:33.345, lng: -83.177},
       content: "<div style='float:left'><img height=100px width=100px src='resources/markers/NorthernCardinal.jpg'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>"
-  },
+      },
   {
       coords:{lat:33.346, lng: -83.176},
       content: "<div style='float:left'><img height=100px width=100px src='resources/markers/effigy.jpg'></div><div style='float:right; padding: 10px;'><b>Rock Hawk Effigy</b><br/>Some have estimated that the mound was built about 2,000 years ago by Native Americans.<br/></div>"

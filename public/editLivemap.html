@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<title>Rock Hawk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
+    .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+    }
+</style>
+<style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+        height: 90%;
+    }
+    #legend {
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding: 10px;
+        margin: 10px;
+        border: 3px solid #000;
+    }
+    #legend h3 {
+        margin-top: 0;
+    }
+    #legend img {
+        vertical-align: middle;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
+        background-position: right top;
+        background-size: auto;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+    }
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+    <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Rock Hawk: Live Map</a>
+        <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
+    </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+        <i class="fa fa-remove"></i>
+    </a>
+    <h4 class="w3-bar-item"><b>Menu</b></h4>
+    <a class="w3-bar-item w3-button w3-hover-black" href="main">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Live Map</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="feedback">Feedback</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate">Donate</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="loginPage">Login</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div id="map"></div>
+<div class="w3-main" style="margin-left:250px">
+
+    <form action="upload" method="POST" enctype="multipart/form-data">
+        Select an image to upload:
+        <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg">
+        <input type="submit" value="Upload Image">
+    </form>
+
+    <footer id="myFooter">
+        <div class="w3-container w3-theme-l2 w3-padding-20">
+            <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
+        </div>
+    </footer>
+
+    <!-- END MAIN -->
+</div>
+
+<script>
+    // Get the Sidebar
+    var mySidebar = document.getElementById("mySidebar");
+
+    // Get the DIV with overlay effect
+    var overlayBg = document.getElementById("myOverlay");
+
+    // Toggle between showing and hiding the sidebar, and add overlay effect
+    function w3_open() {
+        if (mySidebar.style.display === 'block') {
+            mySidebar.style.display = 'none';
+            overlayBg.style.display = "none";
+        } else {
+            mySidebar.style.display = 'block';
+            overlayBg.style.display = "block";
+        }
+    }
+
+    // Close the sidebar with the close button
+    function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+    }
+</script>
+<script>
+      var map, infoWindow, pos;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat:33.0799, lng:-83.2318},
+          zoom: 18,
+          mapTypeId: 'hybrid'
+        });
+        infoWindow = new google.maps.InfoWindow;
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            setInterval(function(){
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('Location found.');
+              console.log("Location Updated.");
+              var yourPosition = {
+                coords:pos, 
+                content: "You"
+              };
+              addMarker(yourPosition);
+            },1000);
+
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+        //var legend = document.getElementById('legend');
+       // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+
+          function getMarkers(){
+              $.getJSON( "getMarkers", {
+                  format: "json"
+              })
+                  .done(function( data ) {
+                      var myData = data;
+                      if (myData === undefined || myData.length === 0) {
+                          return;
+                      }
+                      for(var i=0;i<myData.length;i++){
+                          delete myData[i]['_id'];
+                          console.log(myData[i]);
+                          addMarker(myData[i]);
+                      }
+                  });
+          }
+          getMarkers();
+        function addMarker(properties){
+            var marker = new google.maps.Marker({
+                position:properties.coords,
+                map:map
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content:properties.content
+            });
+
+            marker.addListener('click', function(){
+                infoWindow.open(map, marker);
+            });
+        }
+
+        function getTrails(){
+            $.getJSON( "getTrails", {
+                format: "json"
+            })
+                .done(function( data ) {
+                    var myData = data;
+                    if (myData === undefined || myData.length === 0) {
+                        return;
+                    }
+                    for(var i=0;i<myData.length;i++){
+                        delete myData[i]['_id'];
+                        var trail = new google.maps.Polyline(myData[i]);
+                        trail.setMap(map);
+                        console.log(myData[i]);
+                    }
+                });
+        }
+        getTrails();
+
+
+
+    }
+
+
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiyMvvD_MuPwOnfxFLmBvedkFqkgQNu6U&callback=initMap">
+</script>
+
+</body>
+</html>

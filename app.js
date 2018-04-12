@@ -4,6 +4,11 @@ var http=require("http");
 var path=require("path");
 var bodyParser=require("body-parser");
 var db = require('./db');
+var fs = require('fs');
+var multer = require('multer');
+var mime = require("mime");
+var crypto = require("crypto");
+
 //yellow marks for db opers
 var app=express();
 app.use(require('./routes/test'));
@@ -70,7 +75,7 @@ app.get('/donate',function(req,res){
 
 app.get('/test',function(req,res){
     console.log("send to the test page");
-    res.sendFile(__dirname + "/public/test.html");
+    res.sendFile(__dirname + "/public/editLivemap.html");
 });
 
 app.get('/loginPage',function(req,res){
@@ -80,6 +85,7 @@ app.get('/loginPage',function(req,res){
     console.log("send to the login page");
     res.sendFile(__dirname + "/public/login.html");
 });
+
 
 //--------- DB ACCESS ROUTES -----------
 
@@ -95,17 +101,22 @@ var feedbackSchema = new mongoose.Schema({
 var Feedback = mongoose.model("Feedback", feedbackSchema);
 app.post("/sendFeedback",function(req, res) {
     var data = new Feedback(req.body);
-    console.log(data);
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("rockhawkdb");
-        dbo.collection("feedback").insertOne(data, function(err, res2) {
+    if(data["firstName"]!==null && data["lastName"!==null] && data["email"]!==null) {
+        MongoClient.connect(url, function (err, db) {
             if (err) throw err;
-            console.log("Feedback sent to database");
-            db.close();
-            res.redirect("feedback");
+            var dbo = db.db("rockhawkdb");
+            dbo.collection("feedback").insertOne(data, function (err, res2) {
+                if (err) throw err;
+                console.log("Feedback sent to database");
+                db.close();
+                res.redirect("feedback");
+            });
         });
-    });
+    }
+    else{
+        console.log("Invalid feedback was rejected");
+        res.redirect("feedback");
+    }
 });
 
 app.get("/getFeedback",function(req, res) {
@@ -143,7 +154,56 @@ app.get("/getTrails",function(req, res) {
         });
     });
 });
+var picName;
+var Storage = multer.diskStorage({
 
+    destination: function(req, file, callback) {
+
+        callback(null, "./public/resources/markers");
+
+    },
+
+    filename: function(req, file, callback) {
+        picName = file.fieldname + "_" + Date.now() + "_" + file.originalname;
+        callback(null, picName);
+
+    }
+
+});
+
+var upload = multer({
+
+    storage: Storage
+
+}).array("image", 1); //Field name and max count
+
+app.post("/upload", function(req, res) {
+
+    upload(req, res, function(err) {
+
+        if (err) {
+
+            return res.end("Something went wrong!");
+
+        }
+        var data = {
+            coords: {lat: 33.085, lng: -83.2305},
+            content: "<div style='float:left'><img height=100px width=100px src='resources/markers/"+picName+"'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>"
+        };
+        MongoClient.connect(url, function (err, db) {
+            if (err) throw err;
+            var dbo = db.db("rockhawkdb");
+            dbo.collection("mapMarkers").insertOne(data, function (err, res2) {
+                if (err) throw err;
+                console.log("new map marker created");
+                db.close();
+            });
+        });
+        return res.end("File uploaded sucessfully!.");
+
+    });
+
+});
 //-----------------LOGIN/LOGOUT ROUTES--------------------
 
 
