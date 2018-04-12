@@ -6,8 +6,7 @@ var bodyParser=require("body-parser");
 var db = require('./db');
 var fs = require('fs');
 var multer = require('multer');
-var mime = require("mime");
-var crypto = require("crypto");
+
 
 //yellow marks for db opers
 var app=express();
