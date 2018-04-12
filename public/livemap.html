@@ -115,86 +115,73 @@
     }
 </script>
 <script>
-
-    var map, infoWindow;
-    function initMap() {
+      var map, infoWindow, pos;
+      function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat:33.34488, lng:-83.17503},
-            zoom: 15,
-            mapTypeId: 'hybrid'
+          center: {lat:33.0799, lng:-83.2318},
+          zoom: 18,
+          mapTypeId: 'hybrid'
         });
         infoWindow = new google.maps.InfoWindow;
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+          navigator.geolocation.getCurrentPosition(function(position) {
+            pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
 
-                setInterval(function(){
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent('Location found.');
-                    console.log("Location Updated.")
-                },1000);
+            setInterval(function(){
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('Location found.');
+              console.log("Location Updated.");
+              var yourPosition = {
+                coords:pos, 
+                content: "You"
+              };
+              addMarker(yourPosition);
+            },1000);
 
-                infoWindow.open(map);
-                map.setCenter(pos);
-            }, function() {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
         } else {
             // Browser doesn't support Geolocation
             handleLocationError(false, infoWindow, map.getCenter());
         }
 
-        var icons = {
-            parking: {
-                name: 'Parking',
-                icon: 'red.jpg'
-            }
-        };
+       var markers = [
+        {
+          coords:{lat:33.081, lng: -83.2305},
+          content:'<h1>GCSU</h1>'
+        },
+        {
+          coords:{lat:33.345, lng: -83.177},
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/NorthernCardinal.jpg'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>"
+        },
+        {
+          coords:{lat:33.346, lng: -83.176},
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/effigy.jpg'></div><div style='float:right; padding: 10px;'><b>Rock Hawk Effigy</b><br/>Some have estimated that the mound was built about 2,000 years ago by Native Americans.<br/></div>"
+        },
+        {
+          coords:{lat:33.347, lng: -83.174},
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/sweetgum.jpg'></div><div style='float:right; padding: 10px;'><b>Sweet Gum Tree</b><br/>The sweet gum tree can be recognized by its leaves which have either five or seven lobes.<br/></div>"
+        },
+        {
+          coords:{lat: 33.353, lng: -83.1785},
+          content: "<div style='float:left'><img height=100px width=100px src='./resources/lake.jpg'></div><div style='float:right; padding: 10px;'><b>Lake Oconee</b>"
+        }
+      ];
 
-
-        var markers = [
-            {
-                coords:{lat:33.34488, lng: -83.17503},
-                content:'<h1>RockHawk</h1>'
-            },
-            {
-                coords:{lat:33.345, lng: -83.177},
-                content: "<div style='float:left'><img height=100px width=100px src='./resources/NorthernCardinal.jpg'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>"
-            },
-            {
-                coords:{lat:33.346, lng: -83.176},
-                content: "<div style='float:left'><img height=100px width=100px src='./resources/effigy.jpg'></div><div style='float:right; padding: 10px;'><b>Rock Hawk Effigy</b><br/>Some have estimated that the mound was built about 2,000 years ago by Native Americans.<br/></div>"
-            },
-            {
-                coords:{lat:33.347, lng: -83.174},
-                content: "<div style='float:left'><img height=100px width=100px src='./resources/sweetgum.jpg'></div><div style='float:right; padding: 10px;'><b>Sweet Gum Tree</b><br/>The sweet gum tree can be recognized by its leaves which have either five or seven lobes.<br/></div>"
-            },
-            {
-                coords:{lat: 33.353, lng: -83.1785},
-                content: "<div style='float:left'><img height=100px width=100px src='./resources/lake.jpg'></div><div style='float:right; padding: 10px;'><b>Lake Oconee</b>"
-            }
-        ];
-
-        var flightPlanCoordinates1 = [
-            {lat: 33.34488, lng: -83.17503},
-            {lat: 33.345, lng: -83.1753},
-            {lat: 33.3449, lng: -83.1754},
-            {lat: 33.3448, lng: -83.1756},
-            {lat: 33.3451, lng: -83.1758},
-            {lat: 33.3451, lng: -83.1765},
-            {lat: 33.3448, lng: -83.1768},
-            {lat: 33.3449, lng: -83.1769},
-            {lat: 33.345, lng: -83.177},
-            {lat: 33.3452, lng: -83.1778},
-            {lat: 33.346, lng: -83.178},
-            {lat: 33.3461, lng: -83.1786},
-            {lat: 33.3463, lng: -83.179},
-            {lat: 33.3467, lng: -83.181},
-            {lat: 33.346, lng: -83.183}
+       var flightPlanCoordinates1 = [
+          {lat: 33.0815, lng: -83.2305},
+          {lat: 33.0814, lng: -83.23121},
+          {lat: 33.0806, lng: -83.23105},
+          {lat: 33.0809, lng: -83.22975},
+          {lat: 33.0816, lng: -83.22992},
+          {lat: 33.0815, lng: -83.2305}
 
         ];
         var flightPath1 = new google.maps.Polyline({
