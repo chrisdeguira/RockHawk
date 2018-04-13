@@ -159,6 +159,8 @@
                       lat: position.coords.latitude,
                       lng: position.coords.longitude
                   };
+                  document.getElementById('currentLat').setAttribute("value",newPos.lat);
+                  document.getElementById('currentLng').setAttribute("value",newPos.lng);
                   userMarker.setPosition(newPos);
               })
 
