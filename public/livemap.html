@@ -151,8 +151,6 @@
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    document.getElementById('currentLat').setAttribute("value",newPos.lat);
-                    document.getElementById('currentLng').setAttribute("value",newPos.lng);
                     userMarker.setPosition(newPos);
                 })
             },3000);
@@ -217,7 +215,7 @@
             });
 
             userMarker.addListener('click', function(){
-                infoWindow.open(map, marker);
+                infoWindow.open(map, userMarker);
             });
             google.maps.event.addListener(map, "click", function(event) {
                 infoWindow.close();
