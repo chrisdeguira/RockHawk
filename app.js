@@ -187,7 +187,7 @@ app.post("/upload", function(req, res) {
         }
         var data = {
             coords: {lat: parseFloat(req.body.currentLat), lng: parseFloat(req.body.currentLng)},
-            content: "<div style='float:left'><img height=100px width=100px src='resources/markers/"+picName+"'></div><div style='float:right; padding: 10px;'><b>"+req.body.markerTitle+"</b><br/>"+req.body.markerDesc+"<br/>8-9 in.</div>"
+            content: "<div style='float:left'><img height=100px width=100px src='resources/markers/"+picName+"'></div><div style='float:right; padding: 10px;'><b>"+req.body.markerTitle+"</b><br/>"+req.body.markerDesc+"</div>"
         };
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
