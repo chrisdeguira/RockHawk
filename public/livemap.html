@@ -126,7 +126,7 @@
         });
         infoWindow = new google.maps.InfoWindow;
 
-        if (navigator.geolocation) {
+      //  if (navigator.geolocation) {
             //----------------starting position----------------------------------
             navigator.geolocation.getCurrentPosition(function(position) {
                 startPos = {
@@ -157,11 +157,11 @@
             //---------------update your position---------------------------------
 
 
-        } else {
+      //  } else {
             // Browser doesn't support Geolocation
-            document.getElementById('currentLocation').innerHTML="Location Not Found";
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
+        //    document.getElementById('currentLocation').innerHTML="Location Not Found";
+       //     handleLocationError(false, infoWindow, map.getCenter());
+      //  }
 
 
         //var legend = document.getElementById('legend');
