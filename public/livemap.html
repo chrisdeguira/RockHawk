@@ -142,22 +142,8 @@
                 addUserMarker(yourPosition);
 
 
-            }, function(error) {
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        document.getElementById('currentLocation').innerHTML = "User denied the request for Geolocation.";
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        document.getElementById('currentLocation').innerHTML = "Location information is unavailable.";
-                        break;
-                    case error.TIMEOUT:
-                        document.getElementById('currentLocation').innerHTML = "The request to get user location timed out.";
-                        break;
-                    case error.UNKNOWN_ERROR:
-                        document.getElementById('currentLocation').innerHTML = "An unknown error occurred.";
-                        break;
-                }
-                handleLocationError(false, infoWindow, map.getCenter());
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
             });
             setTimeout(function(){
                 navigator.geolocation.watchPosition(function(position) {
@@ -173,8 +159,8 @@
 
        } else {
             // Browser doesn't support Geolocation
-            document.getElementById('currentLocation').innerHTML="Geolocation is not supported by this browser.";
-            handleLocationError(false, infoWindow, map.getCenter());
+        //    document.getElementById('currentLocation').innerHTML="Location Not Found";
+          handleLocationError(false, infoWindow, map.getCenter());
         }
 
 
@@ -273,7 +259,7 @@
 
 </script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCiyMvvD_MuPwOnfxFLmBvedkFqkgQNu6U&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?sensor=true&v=3&key=AIzaSyCiyMvvD_MuPwOnfxFLmBvedkFqkgQNu6U&callback=initMap">
 </script>
 
 </body>
