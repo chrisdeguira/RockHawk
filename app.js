@@ -100,7 +100,7 @@ var feedbackSchema = new mongoose.Schema({
 var Feedback = mongoose.model("Feedback", feedbackSchema);
 app.post("/sendFeedback",function(req, res) {
     var data = new Feedback(req.body);
-    if(data["firstName"]!==null && data["lastName"!==null] && data["email"]!==null) {
+    if(data["firstName"]!==null && data["lastName"]!==null && data["email"]!==null) {
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
             var dbo = db.db("rockhawkdb");
@@ -114,6 +114,7 @@ app.post("/sendFeedback",function(req, res) {
     }
     else{
         console.log("Invalid feedback was rejected");
+        console.log(req.body);
         res.redirect("feedback");
     }
 });
