@@ -152,21 +152,24 @@
                     coords:startPos,
                     content: "You"
                 };
+                map.setCenter(startPos);
                 addUserMarker(yourPosition);
 
-                map.setCenter(startPos);
+
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
             });
-            navigator.geolocation.watchPosition(function(position) {
-                newPos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                document.getElementById('currentLat').setAttribute("value",newPos.lat);
-                document.getElementById('currentLng').setAttribute("value",newPos.lng);
-                userMarker.setPosition(newPos);
-            })
+            setTimeout(function(){
+                navigator.geolocation.watchPosition(function(position) {
+                    newPos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    document.getElementById('currentLat').setAttribute("value",newPos.lat);
+                    document.getElementById('currentLng').setAttribute("value",newPos.lng);
+                    userMarker.setPosition(newPos);
+                })
+            },3000);
             //---------------update your position---------------------------------
 
 
@@ -227,12 +230,13 @@
                 content:properties.content
             });
 
-            marker.addListener('click', function(){
+            userMarker.addListener('click', function(){
                 infoWindow.open(map, marker);
             });
             google.maps.event.addListener(map, "click", function(event) {
                 infoWindow.close();
             });
+            map.setCenter(properties.coords);
         }
 
         function getTrails(){
