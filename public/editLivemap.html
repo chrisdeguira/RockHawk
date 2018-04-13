@@ -152,7 +152,7 @@
                 coords:startPos,
                 content: "You"
               };
-              userMarker = addUserMarker(yourPosition);
+              addUserMarker(yourPosition);
 
             map.setCenter(startPos);
           }, function() {
@@ -217,7 +217,7 @@
         }
 
           function addUserMarker(properties){
-              var marker = new google.maps.Marker({
+              userMarker = new google.maps.Marker({
                   position:properties.coords,
                   map:map,
                   icon: "resources/userIcon.png"
@@ -233,7 +233,6 @@
               google.maps.event.addListener(map, "click", function(event) {
                   infoWindow.close();
               });
-              return marker;
           }
 
         function getTrails(){
