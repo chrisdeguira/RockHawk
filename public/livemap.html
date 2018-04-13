@@ -82,6 +82,7 @@
 
 <div id="map"></div>
 <div class="w3-main" style="margin-left:250px">
+
     <footer id="myFooter">
         <div class="w3-container w3-theme-l2 w3-padding-20">
             <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
@@ -116,67 +117,77 @@
     }
 </script>
 <script>
-      var map, infoWindow, pos;
-      function initMap() {
+    var map, infoWindow, startPos, newPos, userMarker;
+    function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat:33.0799, lng:-83.2318},
-          zoom: 18,
-          mapTypeId: 'hybrid'
+            center: {lat:33.0799, lng:-83.2318},
+            zoom: 18,
+            mapTypeId: 'hybrid'
         });
         infoWindow = new google.maps.InfoWindow;
 
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+            //----------------starting position----------------------------------
+            navigator.geolocation.getCurrentPosition(function(position) {
+                startPos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                infoWindow.setPosition(startPos);
+                var yourPosition = {
+                    coords:startPos,
+                    content: "You"
+                };
+                userMarker = addUserMarker(yourPosition);
 
-            setInterval(function(){
-              infoWindow.setPosition(pos);
-              infoWindow.setContent('Location found.');
-              console.log("Location Updated.");
-              var yourPosition = {
-                coords:pos, 
-                content: "You"
-              };
-              addMarker(yourPosition);
-            },1000);
+                map.setCenter(startPos);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
 
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
+            //---------------update your position---------------------------------
+            navigator.geolocation.watchPosition(function(position) {
+                newPos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                document.getElementById('currentLat').setAttribute("value",newPos.lat);
+                document.getElementById('currentLng').setAttribute("value",newPos.lng);
+
+            })
+
         } else {
             // Browser doesn't support Geolocation
+            document.getElementById('currentLocation').innerHTML="Location Not Found";
             handleLocationError(false, infoWindow, map.getCenter());
         }
 
-        //var legend = document.getElementById('legend');
-       // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
-          function getMarkers(){
-              $.getJSON( "getMarkers", {
-                  format: "json"
-              })
-                  .done(function( data ) {
-                      var myData = data;
-                      if (myData === undefined || myData.length === 0) {
-                          return;
-                      }
-                      for(var i=0;i<myData.length;i++){
-                          delete myData[i]['_id'];
-                          console.log(myData[i]);
-                          addMarker(myData[i]);
-                      }
-                  });
-          }
-          getMarkers();
+        //var legend = document.getElementById('legend');
+        // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+
+        function getMarkers(){
+            $.getJSON( "getMarkers", {
+                format: "json"
+            })
+                .done(function( data ) {
+                    var myData = data;
+                    if (myData === undefined || myData.length === 0) {
+                        return;
+                    }
+                    for(var i=0;i<myData.length;i++){
+                        delete myData[i]['_id'];
+                        console.log(myData[i]);
+                        addMarker(myData[i]);
+                    }
+                });
+        }
+        getMarkers();
         function addMarker(properties){
             var marker = new google.maps.Marker({
                 position:properties.coords,
-                map:map
+                map:map,
+                icon: "resources/landmark.png"
             });
 
             var infoWindow = new google.maps.InfoWindow({
@@ -186,6 +197,29 @@
             marker.addListener('click', function(){
                 infoWindow.open(map, marker);
             });
+            google.maps.event.addListener(map, "click", function(event) {
+                infoWindow.close();
+            });
+        }
+
+        function addUserMarker(properties){
+            var marker = new google.maps.Marker({
+                position:properties.coords,
+                map:map,
+                icon: "resources/userIcon.png"
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content:properties.content
+            });
+
+            marker.addListener('click', function(){
+                infoWindow.open(map, marker);
+            });
+            google.maps.event.addListener(map, "click", function(event) {
+                infoWindow.close();
+            });
+            return marker;
         }
 
         function getTrails(){

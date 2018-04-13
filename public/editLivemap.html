@@ -230,6 +230,9 @@
               marker.addListener('click', function(){
                   infoWindow.open(map, marker);
               });
+              google.maps.event.addListener(map, "click", function(event) {
+                  infoWindow.close();
+              });
               return marker;
           }
 
