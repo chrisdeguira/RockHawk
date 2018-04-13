@@ -51,6 +51,87 @@
         background-attachment: scroll;
     }
 </style>
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
+    .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+    }
+    body{
+        background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
+        background-position: 100% 5%;
+        background-size: 60%;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+    }
+    p{
+        font-size: 1.25em;
+    }
+    .row{
+        display:flex;
+        flex-wrap: wrap;
+        padding:0 4px;
+    }
+    .row img{
+        height:40%;
+        width:25%;
+        border-radius: 10px;
+    }
+    input[type=text]:focus {
+        border: 2px solid #555;
+    }
+    input[type=text]{
+        width: 90%;
+        resize: none;
+    }
+    input[type=email]:focus {
+        border: 2px solid #555;
+    }
+    input[type=email]{
+        width: 90%;
+        resize: none;
+    }
+    button:hover{opacity:1;}
+    button{
+        background-color: brown;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    input[type=submit]:hover {opacity:1}
+    input[type=submit]{
+        background-color: brown;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    textarea:focus {
+        border: 2px solid #555;
+    }
+    textarea{
+        width: 90%;
+        resize: none;
+    }
+</style>
 <body>
 
 <!-- Navbar -->
@@ -86,8 +167,8 @@
     <form action="upload" method="POST" enctype="multipart/form-data">
         <h2>Create a Marker at Your Current Location</h2>
         <h3>Your Current Location</h3>
-        Latitude: <input type="text" id="currentLat" name="currentLat" value="Retrieving Position" readonly>
-        Longitude: <input type="text" id="currentLng" name="currentLng" value="Retrieving Position" readonly>
+        <p style="font-size: 18px;">Latitude: </p><input type="text" id="currentLat" name="currentLat" value="Retrieving Position" readonly><br>
+        <p style="font-size: 18px;">Longitude: </p><input type="text" id="currentLng" name="currentLng" value="Retrieving Position" readonly><br>
         <p style="font-size: 18px;">Marker Title:</p>
         <input type="text" name="markerTitle"><br>
         <p style="font-size: 18px;">Marker Description:</p>
