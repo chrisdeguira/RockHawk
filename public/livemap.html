@@ -140,12 +140,6 @@
                 };
                 map.setCenter(startPos);
                 addUserMarker(yourPosition);
-
-
-            }, function() {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
-            setTimeout(function(){
                 navigator.geolocation.watchPosition(function(position) {
                     newPos = {
                         lat: position.coords.latitude,
@@ -153,7 +147,10 @@
                     };
                     userMarker.setPosition(newPos);
                 })
-            },5000);
+
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
             //---------------update your position---------------------------------
 
 

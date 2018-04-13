@@ -154,24 +154,20 @@
               };
               map.setCenter(startPos);
               addUserMarker(yourPosition);
-
+              navigator.geolocation.watchPosition(function(position) {
+                  newPos = {
+                      lat: position.coords.latitude,
+                      lng: position.coords.longitude
+                  };
+                  userMarker.setPosition(newPos);
+              })
 
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
 
           //---------------update your position---------------------------------
-            setTimeout(function(){
-                navigator.geolocation.watchPosition(function(position) {
-                    newPos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    document.getElementById('currentLat').setAttribute("value",newPos.lat);
-                    document.getElementById('currentLng').setAttribute("value",newPos.lng);
-                    userMarker.setPosition(newPos);
-                })
-            },5000);
+
 
 
         } else {
