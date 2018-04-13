@@ -72,8 +72,8 @@ app.get('/donate',function(req,res){
     res.sendFile(__dirname + "/public/donate.html");
 });
 
-app.get('/test',function(req,res){
-    console.log("send to the test page");
+app.get('/editMap',auth,function(req,res){
+    console.log("send a staff member to the map editing page");
     res.sendFile(__dirname + "/public/editLivemap.html");
 });
 
@@ -186,8 +186,8 @@ app.post("/upload", function(req, res) {
 
         }
         var data = {
-            coords: {lat: 33.085, lng: -83.2305},
-            content: "<div style='float:left'><img height=100px width=100px src='resources/markers/"+picName+"'></div><div style='float:right; padding: 10px;'><b>Northern Cardinal</b><br/>Very common. Listen for: purty-purty-purty.<br/>8-9 in.</div>"
+            coords: {lat: parseFloat(req.body.currentLat), lng: parseFloat(req.body.currentLng)},
+            content: "<div style='float:left'><img height=100px width=100px src='resources/markers/"+picName+"'></div><div style='float:right; padding: 10px;'><b>"+req.body.markerTitle+"</b><br/>"+req.body.markerDesc+"<br/>8-9 in.</div>"
         };
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
@@ -198,7 +198,7 @@ app.post("/upload", function(req, res) {
                 db.close();
             });
         });
-        return res.end("File uploaded sucessfully!.");
+        return res.redirect("editMap");
 
     });
 
@@ -214,6 +214,9 @@ app.get('/login', function (req, res) {
         req.session.user = "staffMember";
         req.session.admin = true;
         res.redirect("options");
+    }
+    else{
+        res.redirect("loginPage");
     }
 });
 

@@ -84,9 +84,17 @@
 <div class="w3-main" style="margin-left:250px">
 
     <form action="upload" method="POST" enctype="multipart/form-data">
-        Select an image to upload:
-        <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg">
-        <input type="submit" value="Upload Image">
+        <h2>Create a Marker at Your Current Location</h2>
+        <h3>Your Current Location</h3>
+        Latitude: <input type="text" id="currentLat" name="currentLat" value="Retrieving Position" readonly>
+        Longitude: <input type="text" id="currentLng" name="currentLng" value="Retrieving Position" readonly>
+        <p style="font-size: 18px;">Marker Title:</p>
+        <input type="text" name="markerTitle"><br>
+        <p style="font-size: 18px;">Marker Description:</p>
+        <textarea name="markerDesc" maxlength="1000" rows="3" placeholder="Enter description here..."></textarea><br>
+        <p>Upload Marker Image</p>
+        <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg"><br><br>
+        <input type="submit" value="Create Marker">
     </form>
 
     <footer id="myFooter">
@@ -123,7 +131,7 @@
     }
 </script>
 <script>
-      var map, infoWindow, pos;
+      var map, infoWindow, startPos, newPos, userMarker;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:33.0799, lng:-83.2318},
@@ -133,32 +141,41 @@
         infoWindow = new google.maps.InfoWindow;
 
         if (navigator.geolocation) {
+            //----------------starting position----------------------------------
           navigator.geolocation.getCurrentPosition(function(position) {
-            pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            setInterval(function(){
-              infoWindow.setPosition(pos);
-              infoWindow.setContent('Location found.');
-              console.log("Location Updated.");
+              startPos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+              };
+              infoWindow.setPosition(startPos);
               var yourPosition = {
-                coords:pos, 
+                coords:startPos,
                 content: "You"
               };
-              addMarker(yourPosition);
-            },1000);
+              userMarker = addUserMarker(yourPosition);
 
-            infoWindow.open(map);
-            map.setCenter(pos);
+            map.setCenter(startPos);
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
+
+          //---------------update your position---------------------------------
+            navigator.geolocation.watchPosition(function(position) {
+                newPos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                document.getElementById('currentLat').setAttribute("value",newPos.lat);
+                document.getElementById('currentLng').setAttribute("value",newPos.lng);
+
+            })
+
         } else {
             // Browser doesn't support Geolocation
+            document.getElementById('currentLocation').innerHTML="Location Not Found";
             handleLocationError(false, infoWindow, map.getCenter());
         }
+
 
         //var legend = document.getElementById('legend');
        // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
@@ -183,7 +200,8 @@
         function addMarker(properties){
             var marker = new google.maps.Marker({
                 position:properties.coords,
-                map:map
+                map:map,
+                icon: "resources/landmark.png"
             });
 
             var infoWindow = new google.maps.InfoWindow({
@@ -193,7 +211,27 @@
             marker.addListener('click', function(){
                 infoWindow.open(map, marker);
             });
+            google.maps.event.addListener(map, "click", function(event) {
+                infoWindow.close();
+            });
         }
+
+          function addUserMarker(properties){
+              var marker = new google.maps.Marker({
+                  position:properties.coords,
+                  map:map,
+                  icon: "resources/userIcon.png"
+              });
+
+              var infoWindow = new google.maps.InfoWindow({
+                  content:properties.content
+              });
+
+              marker.addListener('click', function(){
+                  infoWindow.open(map, marker);
+              });
+              return marker;
+          }
 
         function getTrails(){
             $.getJSON( "getTrails", {
