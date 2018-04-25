@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <title>Rock Hawk</title>
@@ -96,6 +97,37 @@
         width: 90%;
         resize: none;
     }
+    /* PAYPAL PAYMENT FORM CODE */
+
+    .pp-form    { margin: 0px; }
+
+    .pp-input   { width: 130px; margin: 3px 0px 3px 0px; }
+
+    .pp-textarea    { width: 130px; margin: 3px 0px 3px 0px; }
+
+    .pp-button  { width: 134px; margin: 3px 0px 3px 0px; }
+
+    .pp-badge   {
+        float: left;
+        margin: 20px auto 0px 0px;
+    }
+
+    .pp-canvasarea  {
+        background-color: #F0F0F0;
+        border: #D4D4D4 1px solid;
+        display: inline-block;
+        *display: inline; zoom: 1; /* FOR IE7-8 */
+        padding: 6px;
+    }
+
+    .pp-formbox {
+        font: normal 13px arial, sans-serif;
+        float: left;
+        padding: 0px 10px 0px 0px;
+    }
+
+    .pp-clear-float { height: 1px; clear: both; }
+
 </style>
 <body>
 
@@ -114,10 +146,10 @@
         <i class="fa fa-remove"></i>
     </a>
     <h4 class="w3-bar-item"><b>Menu</b></h4>
-    <a class="w3-bar-item w3-button w3-hover-black" href="index.html">Home</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="livemap.html">Live Map</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="feedback.html">Feedback</a>
-    <a class="w3-bar-item w3-button w3-hover-black" href="donate.html">Donate</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="main">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Live Map</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="feedback">Feedback</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate">Donate</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="loginPage">Login</a>
 </nav>
 
@@ -151,7 +183,47 @@
         padding-top:10px;">The Historic Piedmont Scenic Byway Corp. and Rock Hawk Park rely upon charitable gifts for maintenance, restoration, and preservation. The Historic Piedmont Scenic Byway Corp. is a non-profit organization, tax exempt under section 501(c)3 and section 170 of the U.S. Internal Revenue Code; therefore, all donations to the Foundation are tax deductible to the extent allowed by law. The Foundation welcomes individual donations in the form of direct gifts, charitable gift annuities, charitable remainder trusts, charitable lead trusts, endowment fund gifts, life insurance gifts, wills, and bequests. All donations will go toward Rock Hawk Park unless otherwise designated. All Friends of the Scenic Byway and Rock Hawk will receive recognition in the Friends of Rock Hawk List.</p>
     <h3 style="text-align: center;">Rock Hawk relies on donations from its visitors, and <b>every cent counts.</b></h3>
 
-    <div style="text-align: center; padding-bottom: 75px"><button onclick="window.location.href='https://www.paypal.com/donate/?token=MFS0wwDasYIhNuIYaYohnPukKG6ESBqJUV8vaCUPfwRMkCOayzg5559PJN--QW-YQLWT4m&country.x=US&locale.x=US'">Donate</button></div>
+    <!--<div style="text-align: center; padding-bottom: 75px"><button onclick="window.location.href='https://www.paypal.com/donate/?token=MFS0wwDasYIhNuIYaYohnPukKG6ESBqJUV8vaCUPfwRMkCOayzg5559PJN--QW-YQLWT4m&country.x=US&locale.x=US'">Donate</button></div>-->
+    <!-- START PAYPAL FORM -->
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="text-align: center;">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="AE8ZMRJJAWC88">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+
+    <!--NOTE: this button redirects users to Larry Moore's account. To enable this button, simply remove the "<!--" and "->" on this block of code-->
+    <!--<div class="pp-canvasarea">
+    <div class="pp-formbox">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="pp-form">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="larrymoore@plantationcable.net">
+    <input type="hidden" name="item_name" value="Paypal Payment">
+    <input type="hidden" name="no_note" value="1">
+    <input type="hidden" name="currency_code" value="USD">
+
+    Enter amount:<br>
+
+    <input type="text" name="amount" value="" class="pp-input"><br>
+
+    <input type="hidden" name="on0" value="Payment Details">
+
+    Payment notes:<br>
+
+    <textarea name="os0" rows="4" cols="16" class="pp-textarea"></textarea><br>
+
+    <input type="submit" name="PaypalPayment" value="Send Payment" class="pp-button"><br>
+
+    </form>
+
+    </div>
+    <img src="./resources/paypal-badge.png" class="pp-badge" alt="Payments through Paypal">
+    <div class="pp-clear-float"></div>
+    </div>
+    <br>
+
+    <!-- END PAYPAL FORM -->
+
 
 
     <footer id="myFooter">
