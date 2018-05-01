@@ -213,6 +213,10 @@
     }
 </script>
 <script>
+        if (location.protocol != 'https:')
+        {
+            location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        }
       var map, infoWindow, startPos, newPos, userMarker;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {

@@ -117,6 +117,10 @@
     }
 </script>
 <script>
+    if (location.protocol != 'https:')
+    {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
     var map, infoWindow, startPos, newPos, userMarker;
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -255,9 +259,9 @@
 
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2TSGLNdrg8lOD2J4UwIVrtABCpGBA01w&callback=initMap"
-        async defer></script>
-
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?sensor=true&v=3&key=AIzaSyA2TSGLNdrg8lOD2J4UwIVrtABCpGBA01w&callback=initMap">
+</script>
 
 </body>
 </html>
