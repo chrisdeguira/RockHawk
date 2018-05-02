@@ -7,6 +7,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+    if (location.protocol != 'https:')
+    {
+        if(location.host!='localhost:3000'){
+            location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        }
+    }
+</script>
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
@@ -151,10 +159,7 @@
 </div>
 
 <script>
-    if (location.protocol != 'https:')
-    {
-        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-    }
+
     // Get the Sidebar
     var mySidebar = document.getElementById("mySidebar");
 
