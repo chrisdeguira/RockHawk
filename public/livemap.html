@@ -191,7 +191,7 @@
         getMarkers();
         function addMarker(properties){
             var marker = new google.maps.Marker({
-                position:properties.coords,
+                position:{lat:50,lng:50},
                 map:map,
                 icon: "resources/landmark.png"
             });
@@ -210,7 +210,7 @@
 
         function addUserMarker(properties){
             userMarker = new google.maps.Marker({
-                position:properties.coords,
+                position:{lat:50,lng:50},
                 map:map,
                 icon: "resources/userIcon.png"
             });
@@ -225,7 +225,7 @@
             google.maps.event.addListener(map, "click", function(event) {
                 infoWindow.close();
             });
-            map.setCenter(properties.coords);
+            map.setCenter({lat:50,lng:50});
         }
 
         function getTrails(){
@@ -264,7 +264,7 @@
 
 </script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?sensor=true&v=3&key=AIzaSyA2TSGLNdrg8lOD2J4UwIVrtABCpGBA01w&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2TSGLNdrg8lOD2J4UwIVrtABCpGBA01w&callback=initMap">
 </script>
 
 </body>
