@@ -16,6 +16,147 @@
     }
 </script>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+    var map, infoWindow, startPos, newPos, userMarker;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat:33.0799, lng:-83.2318},
+            zoom: 18,
+            mapTypeId: 'hybrid'
+        });
+        infoWindow = new google.maps.InfoWindow;
+
+        if (navigator.geolocation) {
+            //----------------starting position----------------------------------
+            navigator.geolocation.getCurrentPosition(function(position) {
+                startPos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                infoWindow.setPosition(startPos);
+                var yourPosition = {
+                    coords:startPos,
+                    content: "You"
+                };
+                map.setCenter(startPos);
+                addUserMarker(yourPosition);
+                navigator.geolocation.watchPosition(function(position) {
+                    newPos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    document.getElementById('currentLat').setAttribute("value",newPos.lat);
+                    document.getElementById('currentLng').setAttribute("value",newPos.lng);
+                    userMarker.setPosition(newPos);
+                })
+
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+
+            //---------------update your position---------------------------------
+
+
+
+        } else {
+            // Browser doesn't support Geolocation
+            //document.getElementById('currentLocation').innerHTML="Location Not Found";
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+
+        //var legend = document.getElementById('legend');
+        // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+
+        function getMarkers(){
+            $.getJSON( "getMarkers", {
+                format: "json"
+            })
+                .done(function( data ) {
+                    var myData = data;
+                    if (myData === undefined || myData.length === 0) {
+                        return;
+                    }
+                    for(var i=0;i<myData.length;i++){
+                        delete myData[i]['_id'];
+                        console.log(myData[i]);
+                        addMarker(myData[i]);
+                    }
+                });
+        }
+        getMarkers();
+        function addMarker(properties){
+            var marker = new google.maps.Marker({
+                position:properties.coords,
+                map:map,
+                icon: "resources/landmark.png"
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content:properties.content
+            });
+
+            marker.addListener('click', function(){
+                infoWindow.open(map, marker);
+            });
+            google.maps.event.addListener(map, "click", function(event) {
+                infoWindow.close();
+            });
+        }
+
+        function addUserMarker(properties){
+            userMarker = new google.maps.Marker({
+                position:properties.coords,
+                map:map,
+                icon: "resources/userIcon.png"
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content:properties.content
+            });
+
+            userMarker.addListener('click', function(){
+                infoWindow.open(map, userMarker);
+            });
+            google.maps.event.addListener(map, "click", function(event) {
+                infoWindow.close();
+            });
+            map.setCenter(properties.coords);
+        }
+
+        function getTrails(){
+            $.getJSON( "getTrails", {
+                format: "json"
+            })
+                .done(function( data ) {
+                    var myData = data;
+                    if (myData === undefined || myData.length === 0) {
+                        return;
+                    }
+                    for(var i=0;i<myData.length;i++){
+                        delete myData[i]['_id'];
+                        var trail = new google.maps.Polyline(myData[i]);
+                        trail.setMap(map);
+                        console.log(myData[i]);
+                    }
+                });
+        }
+        getTrails();
+
+
+
+    }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2TSGLNdrg8lOD2J4UwIVrtABCpGBA01w&callback=initMap">
+</script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
     .w3-sidebar {
@@ -57,7 +198,7 @@
         padding: 0;
     }
     body{
-        background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
+        background-image: url("resources/hawkback3.gif");
         background-position: right top;
         background-size: auto;
         background-repeat: no-repeat;
@@ -74,7 +215,7 @@
         height: inherit;
     }
     body{
-        background-image: url(http://gccodec.com/rockhawk/wp-content/uploads/2015/05/hawkback3.gif);
+        background-image: url("resources/hawkback3.gif");
         background-position: 100% 5%;
         background-size: 60%;
         background-repeat: no-repeat;
@@ -253,152 +394,7 @@
         overlayBg.style.display = "none";
     }
 </script>
-<script>
-      var map, infoWindow, startPos, newPos, userMarker;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat:33.0799, lng:-83.2318},
-          zoom: 18,
-          mapTypeId: 'hybrid'
-        });
-        infoWindow = new google.maps.InfoWindow;
 
-        if (navigator.geolocation) {
-            //----------------starting position----------------------------------
-          navigator.geolocation.getCurrentPosition(function(position) {
-              startPos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-              };
-              infoWindow.setPosition(startPos);
-              var yourPosition = {
-                coords:startPos,
-                content: "You"
-              };
-              map.setCenter(startPos);
-              addUserMarker(yourPosition);
-              navigator.geolocation.watchPosition(function(position) {
-                  newPos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude
-                  };
-                  document.getElementById('currentLat').setAttribute("value",newPos.lat);
-                  document.getElementById('currentLng').setAttribute("value",newPos.lng);
-                  userMarker.setPosition(newPos);
-              })
-
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-
-          //---------------update your position---------------------------------
-
-
-
-        } else {
-            // Browser doesn't support Geolocation
-            //document.getElementById('currentLocation').innerHTML="Location Not Found";
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
-
-
-        //var legend = document.getElementById('legend');
-       // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
-
-          function getMarkers(){
-              $.getJSON( "getMarkers", {
-                  format: "json"
-              })
-                  .done(function( data ) {
-                      var myData = data;
-                      if (myData === undefined || myData.length === 0) {
-                          return;
-                      }
-                      for(var i=0;i<myData.length;i++){
-                          delete myData[i]['_id'];
-                          console.log(myData[i]);
-                          addMarker(myData[i]);
-                      }
-                  });
-          }
-          getMarkers();
-        function addMarker(properties){
-            var marker = new google.maps.Marker({
-                position:properties.coords,
-                map:map,
-                icon: "resources/landmark.png"
-            });
-
-            var infoWindow = new google.maps.InfoWindow({
-                content:properties.content
-            });
-
-            marker.addListener('click', function(){
-                infoWindow.open(map, marker);
-            });
-            google.maps.event.addListener(map, "click", function(event) {
-                infoWindow.close();
-            });
-        }
-
-          function addUserMarker(properties){
-              userMarker = new google.maps.Marker({
-                  position:properties.coords,
-                  map:map,
-                  icon: "resources/userIcon.png"
-              });
-
-              var infoWindow = new google.maps.InfoWindow({
-                  content:properties.content
-              });
-
-              userMarker.addListener('click', function(){
-                  infoWindow.open(map, userMarker);
-              });
-              google.maps.event.addListener(map, "click", function(event) {
-                  infoWindow.close();
-              });
-              map.setCenter(properties.coords);
-          }
-
-        function getTrails(){
-            $.getJSON( "getTrails", {
-                format: "json"
-            })
-                .done(function( data ) {
-                    var myData = data;
-                    if (myData === undefined || myData.length === 0) {
-                        return;
-                    }
-                    for(var i=0;i<myData.length;i++){
-                        delete myData[i]['_id'];
-                        var trail = new google.maps.Polyline(myData[i]);
-                        trail.setMap(map);
-                        console.log(myData[i]);
-                    }
-                });
-        }
-        getTrails();
-
-
-
-    }
-
-
-
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-    }
-
-
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCiyMvvD_MuPwOnfxFLmBvedkFqkgQNu6U&callback=initMap">
-</script>
 
 </body>
 </html>
