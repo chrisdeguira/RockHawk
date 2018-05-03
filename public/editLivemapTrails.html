@@ -85,6 +85,7 @@
                 });
         }
         getMarkers();
+
         function addMarker(properties){
             var marker = new google.maps.Marker({
                 position:properties.coords,
@@ -143,9 +144,16 @@
         }
         getTrails();
 
-
-
     }
+
+    function addTrailPoint(coords){
+        var trailMarker = new google.maps.Marker({
+            position:coords,
+            map:map,
+            icon: "resources/trailMark.png"
+        });
+    }
+
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
@@ -153,6 +161,79 @@
             'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
     }
+
+    var createCookie = function(name, value, days) {
+        var expires;
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toGMTString();
+        }
+        else {
+            expires = "";
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    function getCookie(c_name) {
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=");
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1;
+                c_end = document.cookie.indexOf(";", c_start);
+                if (c_end == -1) {
+                    c_end = document.cookie.length;
+                }
+                return unescape(document.cookie.substring(c_start, c_end));
+            }
+        }
+        return "";
+    }
+
+
+
+    var points = [];
+
+    function addPointToArray(){
+        console.log(newPos);
+        if(newPos!==undefined){
+            points.push(newPos);
+            addTrailPoint(newPos);
+        }
+        else if(startPos!==undefined){
+            points.push(startPos);
+            addTrailPoint(startPos);
+        }
+
+    }
+    function savePoints(){
+        var json = JSON.stringify(points);
+        createCookie("tempTrail",json);
+        console.log(points);
+    }
+
+    function loadPoints(){
+        var jsonString = getCookie("tempTrail");
+        if(jsonString!==""){
+            points = JSON.parse(jsonString);
+            console.log(jsonString);
+            for(var i=0; i<points.length; i++){
+                addTrailPoint(points[i]);
+            }
+        }
+
+    }
+
+    function deleteSavedPoints(){
+        document.cookie = "tempTrail=[]; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        while(points.length>0){
+            points.pop();
+        }
+        location.reload();
+    }
+
+
+
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2TSGLNdrg8lOD2J4UwIVrtABCpGBA01w&callback=initMap">
@@ -333,6 +414,11 @@
 <div id="map"></div>
 <div class="w3-main" style="margin-left:250px">
   <div class="formstyle">
+      <button id="savePointsButton">Click to save cookie</button>
+      <button id="loadPointsButton">Click to load cookie</button>
+      <button id="addPointsButton">Click to add trail point</button>
+      <button id="deletePointsButton">Click to delete cookie</button>
+      <br/>
     <form action="upload" method="POST" enctype="multipart/form-data">
         <h2 style="background: brown;
     padding: 20px 0;
@@ -340,7 +426,7 @@
     font-weight: 300;
     text-align: center;
     color: #fff;
-    margin: -16px -16px 16px -16px;">Create a Marker at Your Current Location</h2>
+    margin: -16px -16px 16px -16px;">Create a Trail</h2>
         <h3 style="background: brown;
     padding: 20px 0;
     font-size: 140%;
@@ -350,9 +436,8 @@
     margin: -16px -16px 16px -16px;">Your Current Location</h3>
         <p style="font-size: 18px;">Latitude: </p><input type="text" id="currentLat" name="currentLat" value="Retrieving Position"><br>
         <p style="font-size: 18px;">Longitude: </p><input type="text" id="currentLng" name="currentLng" value="Retrieving Position"><br>
-
-        <p style="font-size: 18px;">Marker Title:</p>
-        <input type="text" name="markerTitle"><br>
+        <p style="font-size: 18px;">Trail Name (enter existing name to add a new point):</p>
+        <input type="text" name="trailTitle"><br>
         <p style="font-size: 18px;">Marker Description:</p>
         <textarea name="markerDesc" maxlength="1000" rows="3" placeholder="Enter description here..."></textarea><br>
         <p>Upload Marker Image</p>
@@ -386,12 +471,18 @@
             mySidebar.style.display = 'block';
             overlayBg.style.display = "block";
         }
-
+    }
     // Close the sidebar with the close button
     function w3_close() {
         mySidebar.style.display = "none";
         overlayBg.style.display = "none";
     }
+</script>
+<script>
+    document.getElementById("savePointsButton").onclick = savePoints;
+    document.getElementById("loadPointsButton").onclick = loadPoints;
+    document.getElementById("addPointsButton").onclick = addPointToArray;
+    document.getElementById("deletePointsButton").onclick = deleteSavedPoints;
 </script>
 
 

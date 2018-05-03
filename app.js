@@ -62,6 +62,11 @@ app.get('/livemap',function(req,res){
     res.sendFile(__dirname + "/public/livemap.html");
 });
 
+app.get('/trailedit',function(req,res){
+    console.log("send to edit trail page");
+    res.sendFile(__dirname + "/public/editLivemapTrails.html");
+});
+
 app.get('/main',function(req,res){
     console.log("send to the home page");
     res.sendFile(__dirname + "/public/index.html");
