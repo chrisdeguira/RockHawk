@@ -483,7 +483,7 @@
         <input type="text" name="trailTitle"><br>
         <p style="font-size: 18px;">Select Trail Color:</p>
         <input type="color" name="trailColor"><br>
-        <input type="submit" value="Create Trail">
+        <button type="submit" name="submit" onclick="trailSubmit()">Create Trail</button>
         <input type="hidden" id="pointData" name="pointData" value="[]">
     </form>
   </div>
@@ -503,6 +503,10 @@
 
     // Get the DIV with overlay effect
     var overlayBg = document.getElementById("myOverlay");
+
+    function trailSubmit(){
+        alert("Trail has been created");
+    }
 
     // Toggle between showing and hiding the sidebar, and add overlay effect
     function w3_open() {
