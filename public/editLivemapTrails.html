@@ -232,7 +232,9 @@
     function clearTrailMarkers(){
         for(var i=0; i<trailMarkers.length; i++){
             trailMarkers[i].setMap(null);
-            trailMarkers = [];
+        }
+        while(trailMarkers.length>0){
+            trailMarkers.pop();
         }
     }
     function savePoints(){
@@ -457,7 +459,6 @@
 <div id="map"></div>
 <div class="w3-main" style="margin-left:250px">
   <div class="formstyle">
-      <button id="clearPointsButton">Test Clear Markers</button>
       <button id="addPointsButton">Add Trail Point</button>
       <button id="undoPointsButton">Undo Previous Point Creation</button>
       <button id="deletePointsButton">Delete All Points</button>
@@ -524,7 +525,6 @@
     document.getElementById("addPointsButton").onclick = addPointToArray;
     document.getElementById("undoPointsButton").onclick = undoPoint;
     document.getElementById("deletePointsButton").onclick = deleteSavedPoints;
-    document.getElementById("clearPointsButton").onclick = clearTrailMarkers;
     setTimeout(function(){
         checkOldPoints();
     },3000);
