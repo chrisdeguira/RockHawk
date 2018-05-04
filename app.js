@@ -97,6 +97,7 @@ app.get('/loginPage',function(req,res){
 
 var MongoClient = require('mongodb').MongoClient;
 var feedbackSchema = new mongoose.Schema({
+    timeStamp: String,
     firstName: String,
     lastName: String,
     email: String,
