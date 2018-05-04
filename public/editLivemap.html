@@ -348,8 +348,8 @@
     text-align: center;
     color: #fff;
     margin: -16px -16px 16px -16px;">Your Current Location</h3>
-        <p style="font-size: 18px;">Latitude: </p><input type="text" id="currentLat" name="currentLat" value="Retrieving Position"><br>
-        <p style="font-size: 18px;">Longitude: </p><input type="text" id="currentLng" name="currentLng" value="Retrieving Position"><br>
+        <p style="font-size: 18px;">Latitude: </p><input type="text" id="currentLat" name="currentLat" value="Retrieving Position" readonly><br>
+        <p style="font-size: 18px;">Longitude: </p><input type="text" id="currentLng" name="currentLng" value="Retrieving Position" readonly><br>
 
         <p style="font-size: 18px;">Marker Title:</p>
         <input type="text" name="markerTitle"><br>
@@ -387,10 +387,11 @@
             overlayBg.style.display = "block";
         }
 
-    // Close the sidebar with the close button
-    function w3_close() {
-        mySidebar.style.display = "none";
-        overlayBg.style.display = "none";
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
     }
 </script>
 

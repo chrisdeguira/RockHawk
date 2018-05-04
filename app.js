@@ -62,11 +62,6 @@ app.get('/livemap',function(req,res){
     res.sendFile(__dirname + "/public/livemap.html");
 });
 
-app.get('/trailedit',function(req,res){
-    console.log("send to edit trail page");
-    res.sendFile(__dirname + "/public/editLivemapTrails.html");
-});
-
 app.get('/main',function(req,res){
     console.log("send to the home page");
     res.sendFile(__dirname + "/public/index.html");
@@ -77,9 +72,14 @@ app.get('/donate',function(req,res){
     res.sendFile(__dirname + "/public/donate.html");
 });
 
-app.get('/editMap',auth,function(req,res){
-    console.log("send a staff member to the map editing page");
+app.get('/editMapMarkers',auth,function(req,res){
+    console.log("send a staff member to the map marker editing page");
     res.sendFile(__dirname + "/public/editLivemap.html");
+});
+
+app.get('/editMapTrails',auth,function(req,res){
+    console.log("send a staff member to the map trail editing page");
+    res.sendFile(__dirname + "/public/editLivemapTrails.html");
 });
 
 app.get('/loginPage',function(req,res){
@@ -200,14 +200,38 @@ app.post("/upload", function(req, res) {
             var dbo = db.db("rockhawkdb");
             dbo.collection("mapMarkers").insertOne(data, function (err, res2) {
                 if (err) throw err;
-                console.log("new map marker created");
+                console.log("A new map marker was created");
                 db.close();
             });
         });
-        return res.redirect("editMap");
+        return res.redirect("editMapMarkers");
 
     });
 
+});
+
+app.post("/addTrail", function(req, res) {
+    var points = JSON.parse(req.body.pointData);
+    if(points.length>0){
+        var data = {
+            path: points,
+            geodesic: true,
+            strokeColor: req.body.trailColor,
+            strokeOpacity: 1,
+            strokeWeight: 10,
+            name: req.body.trailTitle
+        };
+        MongoClient.connect(url, function (err, db) {
+            if (err) throw err;
+            var dbo = db.db("rockhawkdb");
+            dbo.collection("mapTrails").insertOne(data, function (err, res2) {
+                if (err) throw err;
+                console.log("A new trail was created");
+                db.close();
+                res.redirect("editMapTrails");
+            });
+        });
+    }
 });
 //-----------------LOGIN/LOGOUT ROUTES--------------------
 

@@ -48,7 +48,8 @@
                     document.getElementById('currentLat').setAttribute("value",newPos.lat);
                     document.getElementById('currentLng').setAttribute("value",newPos.lng);
                     userMarker.setPosition(newPos);
-                })
+                });
+                loadPoints();
 
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
@@ -173,7 +174,7 @@
             expires = "";
         }
         document.cookie = name + "=" + value + expires + "; path=/";
-    }
+    };
 
     function getCookie(c_name) {
         if (document.cookie.length > 0) {
@@ -199,10 +200,14 @@
         if(newPos!==undefined){
             points.push(newPos);
             addTrailPoint(newPos);
+            document.getElementById('pointData').setAttribute("value",JSON.stringify(points));
+            savePoints();
         }
         else if(startPos!==undefined){
             points.push(startPos);
             addTrailPoint(startPos);
+            document.getElementById('pointData').setAttribute("value",JSON.stringify(points));
+            savePoints();
         }
 
     }
@@ -217,6 +222,7 @@
         if(jsonString!==""){
             points = JSON.parse(jsonString);
             console.log(jsonString);
+            document.getElementById('pointData').setAttribute("value",JSON.stringify(points));
             for(var i=0; i<points.length; i++){
                 addTrailPoint(points[i]);
             }
@@ -224,12 +230,24 @@
 
     }
 
+
     function deleteSavedPoints(){
-        document.cookie = "tempTrail=[]; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        while(points.length>0){
-            points.pop();
+        if(confirm("Are you sure you want to delete all temporary trail markers?")){
+            document.cookie = "tempTrail=[]; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            while(points.length>0){
+                points.pop();
+            }
+            document.getElementById('pointData').setAttribute("value",JSON.stringify(points));
+            location.reload();
         }
-        location.reload();
+    }
+
+    function undoPoint(){
+        if(confirm("Are you sure that you want to undo the last temporary trail marker?")){
+            points.pop();
+            savePoints();
+            location.reload();
+        }
     }
 
 
@@ -414,12 +432,11 @@
 <div id="map"></div>
 <div class="w3-main" style="margin-left:250px">
   <div class="formstyle">
-      <button id="savePointsButton">Click to save cookie</button>
-      <button id="loadPointsButton">Click to load cookie</button>
-      <button id="addPointsButton">Click to add trail point</button>
-      <button id="deletePointsButton">Click to delete cookie</button>
-      <br/>
-    <form action="upload" method="POST" enctype="multipart/form-data">
+      <button id="addPointsButton">Add Trail Point</button>
+      <button id="undoPointsButton">Undo Previous Point Creation</button>
+      <button id="deletePointsButton">Delete All Points</button>
+      <br/><br/>
+    <form action="addTrail" method="POST">
         <h2 style="background: brown;
     padding: 20px 0;
     font-size: 140%;
@@ -434,15 +451,14 @@
     text-align: center;
     color: #fff;
     margin: -16px -16px 16px -16px;">Your Current Location</h3>
-        <p style="font-size: 18px;">Latitude: </p><input type="text" id="currentLat" name="currentLat" value="Retrieving Position"><br>
-        <p style="font-size: 18px;">Longitude: </p><input type="text" id="currentLng" name="currentLng" value="Retrieving Position"><br>
-        <p style="font-size: 18px;">Trail Name (enter existing name to add a new point):</p>
+        <p style="font-size: 18px;">Latitude: </p><input type="text" id="currentLat" name="currentLat" value="Retrieving Position" readonly><br>
+        <p style="font-size: 18px;">Longitude: </p><input type="text" id="currentLng" name="currentLng" value="Retrieving Position" readonly><br>
+        <p style="font-size: 18px;">Trail Name: </p>
         <input type="text" name="trailTitle"><br>
-        <p style="font-size: 18px;">Marker Description:</p>
-        <textarea name="markerDesc" maxlength="1000" rows="3" placeholder="Enter description here..."></textarea><br>
-        <p>Upload Marker Image</p>
-        <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg"><br><br>
-        <input type="submit" value="Create Marker">
+        <p style="font-size: 18px;">Select Trail Color:</p>
+        <input type="color" name="trailColor"><br>
+        <input type="submit" value="Create Trail">
+        <input type="hidden" id="pointData" name="pointData" value="[]">
     </form>
   </div>
 
@@ -479,9 +495,8 @@
     }
 </script>
 <script>
-    document.getElementById("savePointsButton").onclick = savePoints;
-    document.getElementById("loadPointsButton").onclick = loadPoints;
     document.getElementById("addPointsButton").onclick = addPointToArray;
+    document.getElementById("undoPointsButton").onclick = undoPoint;
     document.getElementById("deletePointsButton").onclick = deleteSavedPoints;
 </script>
 
