@@ -357,7 +357,7 @@
         <textarea name="markerDesc" maxlength="1000" rows="3" placeholder="Enter description here..."></textarea><br>
         <p>Upload Marker Image</p>
         <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg"><br><br>
-        <input type="submit" value="Create Marker">
+        <button type="submit" name="submit" onclick="markerSubmit()">Create Marker</button>
     </form>
   </div>
 
@@ -376,6 +376,10 @@
 
     // Get the DIV with overlay effect
     var overlayBg = document.getElementById("myOverlay");
+
+    function markerSubmit(){
+        alert("Marker has been created");
+    }
 
     // Toggle between showing and hiding the sidebar, and add overlay effect
     function w3_open() {
