@@ -164,7 +164,6 @@
             var existingPoints = JSON.parse(jsonString);
             if(existingPoints.length>0){
                 if(confirm("Previous temporary trail markers were detected. Would you like to delete them and start a new trail?")){
-                    clearTrailMarkers();
                     deleteSavedPoints();
                 }
             }
