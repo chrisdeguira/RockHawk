@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
+    //force the user to https, google maps api only supports https
     if (location.protocol != 'https:')
     {
         if(location.host!='localhost:3000'){
@@ -18,6 +19,7 @@
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
     var map, infoWindow, startPos, newPos, userMarker;
+    //initialize the map
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat:33.0799, lng:-83.2318},
@@ -25,9 +27,9 @@
             mapTypeId: 'hybrid'
         });
         infoWindow = new google.maps.InfoWindow;
-
+        //initialize geolocation on the user's device
         if (navigator.geolocation) {
-            //----------------starting position----------------------------------
+            //Get the user's starting position and place the marker at their location
             navigator.geolocation.getCurrentPosition(function(position) {
                 startPos = {
                     lat: position.coords.latitude,
@@ -40,6 +42,7 @@
                 };
                 map.setCenter(startPos);
                 addUserMarker(yourPosition);
+                //Keep getting the user's new position and move the marker to them
                 navigator.geolocation.watchPosition(function(position) {
                     newPos = {
                         lat: position.coords.latitude,
@@ -66,10 +69,19 @@
             handleLocationError(false, infoWindow, map.getCenter());
         }
 
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+        }
+
 
         //var legend = document.getElementById('legend');
         // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
+        //this function uses the getMarkers express route and ajax to get the data from the database
         function getMarkers(){
             $.getJSON( "getMarkers", {
                 format: "json"
@@ -88,6 +100,7 @@
         }
         getMarkers();
 
+        //This function places a green info marker on the map
         function addMarker(properties){
             var marker = new google.maps.Marker({
                 position:properties.coords,
@@ -107,6 +120,7 @@
             });
         }
 
+        //This function places the blue user marker on the map
         function addUserMarker(properties){
             userMarker = new google.maps.Marker({
                 position:properties.coords,
@@ -127,6 +141,7 @@
             map.setCenter(properties.coords);
         }
 
+        //This function uses the getTrails route and ajax to get the trail data form the database
         function getTrails(){
             $.getJSON( "getTrails", {
                 format: "json"
@@ -148,7 +163,9 @@
 
 
     }
+
     var trailMarkers = [];
+    //This function creates a red temporary trail marker to visualize where the trail will be created
     function addTrailPoint(coords){
         var trailMarker = new google.maps.Marker({
             position:coords,
@@ -158,6 +175,7 @@
         trailMarkers.push(trailMarker);
     }
 
+    //This function checks if there are eny existing temporary trail markers and asks if the user wants them removed
     function checkOldPoints(){
         var jsonString = getCookie("tempTrail");
         if(jsonString!==""){
@@ -171,15 +189,8 @@
 
     }
 
-
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-    }
-
+    //This function is used to create a cookie on the user's device in order to prevent the loss of their temporary
+    //trail markers if something happens to their device
     var createCookie = function(name, value, days) {
         var expires;
         if (days) {
@@ -193,6 +204,7 @@
         document.cookie = name + "=" + value + expires + "; path=/";
     };
 
+    //This function retrieves the cookie form the user's device
     function getCookie(c_name) {
         if (document.cookie.length > 0) {
             c_start = document.cookie.indexOf(c_name + "=");
@@ -208,12 +220,11 @@
         return "";
     }
 
-
-
     var points = [];
-
+    //This function is used to store the current location of the user and add it to the list of points which will make the trail
     function addPointToArray(){
         console.log(newPos);
+        //They must have a location in order to add the point
         if(newPos!==undefined){
             points.push(newPos);
             addTrailPoint(newPos);
@@ -228,6 +239,7 @@
         }
 
     }
+    //This function deletes the temporary markers from the map
     function clearTrailMarkers(){
         for(var i=0; i<trailMarkers.length; i++){
             trailMarkers[i].setMap(null);
@@ -236,12 +248,13 @@
             trailMarkers.pop();
         }
     }
+    //This function saves the array of points for the trail into a cookie
     function savePoints(){
         var json = JSON.stringify(points);
         createCookie("tempTrail",json);
         console.log(points);
     }
-
+    //This function loads the points stored in a cookie into the array
     function loadPoints(){
         var jsonString = getCookie("tempTrail");
         if(jsonString!==""){
@@ -254,8 +267,7 @@
         }
 
     }
-
-
+    //This function deletes all markers on the map and deletes all temporary points in the array as well as the cookie
     function deleteSavedPoints(){
         if(confirm("Are you sure you want to delete all temporary trail markers?")){
             document.cookie = "tempTrail=[]; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -266,7 +278,7 @@
             clearTrailMarkers();
         }
     }
-
+    //This function removes the last placed temporary marker, it can be repeated as long as a point exists in the array still
     function undoPoint(){
         if(confirm("Are you sure that you want to undo the last temporary trail marker?")){
             points.pop();
@@ -275,8 +287,6 @@
             loadPoints();
         }
     }
-
-
 
 </script>
 <script async defer
@@ -518,6 +528,7 @@
     }
 </script>
 <script>
+    //provide onClick attributes to the buttons and check for old markers after 3 seconds when loaded
     document.getElementById("addPointsButton").onclick = addPointToArray;
     document.getElementById("undoPointsButton").onclick = undoPoint;
     document.getElementById("deletePointsButton").onclick = deleteSavedPoints;

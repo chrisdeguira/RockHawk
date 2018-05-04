@@ -176,11 +176,11 @@
     margin: -16px -16px 16px -16px;">Feedback Survey</h1>
         <form method="post" action="sendFeedback">
             <p style="font-size: 18px;">First name:</p>
-            <input type="text" name="firstName"><br>
+            <input type="text" id="firstName" name="firstName"><br>
             <p style="font-size: 18px;">Last name:</p>
-            <input type="text" name="lastName" ><br>
+            <input type="text" id="lastName" name="lastName" ><br>
             <p style="font-size: 18px;">Email:</p>
-            <input type="email" name="email"><br>
+            <input type="email" id="email" name="email"><br>
             <p style="font-size: 18px;">How would you rate your experience?</p>
             <!--<input type="radio" name="rating" value="1"> 1
             <input type="radio" name="rating" value="2"> 2
@@ -240,7 +240,15 @@
         }
 
         function feedbackSubmit(){
-            alert("Feedback has been submitted. Thank you!");
+            console.log(document.getElementById("firstName").getAttribute("value"));
+            if(document.getElementById("firstName").getAttribute("value")!==null &&
+                document.getElementById("lastName").getAttribute("value")!==null &&
+                document.getElementById("email").getAttribute("value")!==null){
+                    alert("Feedback has been submitted. Thank you!");
+            }
+            else{
+                alert("Invalid Feedback! Please enter a first name, last name, and email address");
+            }
         }
     </script>
 

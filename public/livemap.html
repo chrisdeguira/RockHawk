@@ -10,6 +10,16 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118695533-1"></script>
 <script>
+    //force the user to https, google maps api only supports https
+    if (location.protocol != 'https:')
+    {
+        if(location.host!='localhost:3000'){
+            location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        }
+    }
+</script>
+<script>
+    //set up google analytics
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -62,6 +72,7 @@
 </style>
 <script>
     var map, infoWindow, startPos, newPos, userMarker;
+    //initialize the map
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat:33.0799, lng:-83.2318},
@@ -69,9 +80,9 @@
             mapTypeId: 'hybrid'
         });
         infoWindow = new google.maps.InfoWindow;
-
+        //initialize geolocation on the user's device
         if (navigator.geolocation) {
-            //----------------starting position----------------------------------
+            //Get the user's starting position and place the marker at their location
             navigator.geolocation.getCurrentPosition(function(position) {
                 startPos = {
                     lat: position.coords.latitude,
@@ -84,6 +95,7 @@
                 };
                 map.setCenter(startPos);
                 addUserMarker(yourPosition);
+                //Keep getting the user's new position and move the marker to them
                 navigator.geolocation.watchPosition(function(position) {
                     newPos = {
                         lat: position.coords.latitude,
@@ -95,7 +107,6 @@
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
             }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
-            //---------------update your position---------------------------------
 
 
         } else {
@@ -104,10 +115,11 @@
             handleLocationError(false, infoWindow, map.getCenter());
         }
 
-
+        //for future addition
         //var legend = document.getElementById('legend');
         // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
+        //this function uses the getMarkers express route and ajax to get the data from the database
         function getMarkers(){
             $.getJSON( "getMarkers", {
                 format: "json"
@@ -125,6 +137,8 @@
                 });
         }
         getMarkers();
+
+        //This function places a green info marker on the map
         function addMarker(properties){
             var marker = new google.maps.Marker({
                 position:properties.coords,
@@ -144,6 +158,7 @@
             });
         }
 
+        //This function places the blue user marker on the map
         function addUserMarker(properties){
             userMarker = new google.maps.Marker({
                 position:properties.coords,
@@ -164,6 +179,7 @@
             map.setCenter(properties.coords);
         }
 
+        //This function uses the getTrails route and ajax to get the trail data form the database
         function getTrails(){
             $.getJSON( "getTrails", {
                 format: "json"

@@ -1,4 +1,5 @@
 var express=require("express");
+var router = express.Router();
 var session=require("express-session");
 var http=require("http");
 var path=require("path");
@@ -6,11 +7,13 @@ var bodyParser=require("body-parser");
 var db = require('./db');
 var fs = require('fs');
 var multer = require('multer');
-
-
-//yellow marks for db opers
 var app=express();
-app.use(require('./routes/test'));
+
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//app.use(require('./routes/test'));
 app.use(session({
     secret: 'LJN92-20Vs-A1dl2KX',
     resave: true,
@@ -40,6 +43,7 @@ db.connect(url, function(err) {
     }
 });
 
+//This controls the authentication through an express session
 var auth = function(req, res, next) {
     if (req.session && req.session.user === "staffMember" && req.session.admin)
         return next();
@@ -48,7 +52,7 @@ var auth = function(req, res, next) {
     res.redirect("loginPage");
 };
 
-
+//-----------------------Standard Routes-----------------------
 app.get("/",function(req,res){
     res.sendFile(__dirname + "/public/index.html");
 });
@@ -73,16 +77,19 @@ app.get('/donate',function(req,res){
     res.sendFile(__dirname + "/public/donate.html");
 });
 
+//requires authentication
 app.get('/editMapMarkers',auth,function(req,res){
     console.log("send a staff member to the map marker editing page");
     res.sendFile(__dirname + "/public/editLivemap.html");
 });
 
+//requires authentication
 app.get('/editMapTrails',auth,function(req,res){
     console.log("send a staff member to the map trail editing page");
     res.sendFile(__dirname + "/public/editLivemapTrails.html");
 });
 
+//if the user has already logged in, bypass the login page
 app.get('/loginPage',function(req,res){
     if (req.session && req.session.user === "staffMember" && req.session.admin) {
         res.redirect("options");
@@ -91,11 +98,22 @@ app.get('/loginPage',function(req,res){
     res.sendFile(__dirname + "/public/login.html");
 });
 
+//requires authentication
+app.get('/options', auth, function (req, res) {
+    console.log("send a staff member to the staff tools page");
+    res.sendFile(__dirname + "/public/options.html");
+});
+//requires authentication
+app.get('/view', auth, function (req, res) {
+    console.log("send a staff member to the feedback viewing page");
+    res.sendFile(__dirname + "/public/view.html");
+});
 
-//--------- DB ACCESS ROUTES -----------
 
+//----------------------- DB ACCESS ROUTES ----------------------
 
 var MongoClient = require('mongodb').MongoClient;
+//set up the schema for feedback
 var feedbackSchema = new mongoose.Schema({
     timeStamp: String,
     firstName: String,
@@ -104,10 +122,12 @@ var feedbackSchema = new mongoose.Schema({
     rating: String,
     comment: String
 });
+
+//Route for sending feedback
 var Feedback = mongoose.model("Feedback", feedbackSchema);
 app.post("/sendFeedback",function(req, res) {
     var data = new Feedback(req.body);
-    if(data["firstName"]!==null && data["lastName"]!==null && data["email"]!==null) {
+    if(data["firstName"]!=="" && data["lastName"]!=="" && data["email"]!=="") {
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
             var dbo = db.db("rockhawkdb");
@@ -121,11 +141,11 @@ app.post("/sendFeedback",function(req, res) {
     }
     else{
         console.log("Invalid feedback was rejected");
-        console.log(req.body);
         res.redirect("feedback");
     }
 });
 
+//retrieve feedback from the database
 app.get("/getFeedback", auth, function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
@@ -138,6 +158,7 @@ app.get("/getFeedback", auth, function(req, res) {
     });
 });
 
+//retrieve markers from the database
 app.get("/getMarkers",function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
@@ -150,6 +171,7 @@ app.get("/getMarkers",function(req, res) {
     });
 });
 
+//retrieve the trails from the database
 app.get("/getTrails",function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
@@ -161,37 +183,28 @@ app.get("/getTrails",function(req, res) {
         });
     });
 });
+
+//This sets up the storage for the pictures on the server
 var picName;
 var Storage = multer.diskStorage({
-
     destination: function(req, file, callback) {
-
         callback(null, "./public/resources/markers");
-
     },
-
     filename: function(req, file, callback) {
         picName = file.fieldname + "_" + Date.now() + "_" + file.originalname;
         callback(null, picName);
 
     }
-
 });
-
 var upload = multer({
-
     storage: Storage
-
 }).array("image", 1); //Field name and max count
 
+//This is the file route which accepts a multi-part form request
 app.post("/upload", auth, function(req, res) {
-
     upload(req, res, function(err) {
-
         if (err) {
-
             return res.end("Something went wrong!");
-
         }
         var data = {
             coords: {lat: parseFloat(req.body.currentLat), lng: parseFloat(req.body.currentLng)},
@@ -207,11 +220,10 @@ app.post("/upload", auth, function(req, res) {
             });
         });
         return res.redirect("editMapMarkers");
-
     });
-
 });
 
+//This route sends all of the trail data from the edit trail tool to the database
 app.post("/addTrail", auth, function(req, res) {
     var points = JSON.parse(req.body.pointData);
     if(points.length>0){
@@ -239,9 +251,8 @@ app.post("/addTrail", auth, function(req, res) {
     }
     res.redirect("editMapTrails");
 });
-//-----------------LOGIN/LOGOUT ROUTES--------------------
 
-
+//-------------------------LOGIN/LOGOUT ROUTES-----------------------
 // Login endpoint
 app.get('/login', function (req, res) {
     if (!req.query.username || !req.query.password) {
@@ -262,21 +273,9 @@ app.get('/logout', function (req, res) {
     res.redirect("main");
 });
 
-app.get('/options', auth, function (req, res) {
-    console.log("send a staff member to the staff tools page");
-    res.sendFile(__dirname + "/public/options.html");
-});
-app.get('/view', auth, function (req, res) {
-    console.log("send a staff member to the feedback viewing page");
-    res.sendFile(__dirname + "/public/view.html");
-});
 
-//----------------------------------------------------
-
-
+//404 if not found
 app.use(function(req,res, next){
-    //nnext is callback function afer this function is done
-    //do not put () after next or it is a function call
     res.type("text/plain");
     res.status(404);
     res.send("404-Not Found");
