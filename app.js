@@ -44,8 +44,8 @@ var auth = function(req, res, next) {
     if (req.session && req.session.user === "staffMember" && req.session.admin)
         return next();
     else
-        res.redirect("/");
-    res.redirect("/");
+        res.redirect("loginPage");
+    res.redirect("loginPage");
 };
 
 
@@ -125,7 +125,7 @@ app.post("/sendFeedback",function(req, res) {
     }
 });
 
-app.get("/getFeedback",function(req, res) {
+app.get("/getFeedback", auth, function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("rockhawkdb");
@@ -183,7 +183,7 @@ var upload = multer({
 
 }).array("image", 1); //Field name and max count
 
-app.post("/upload", function(req, res) {
+app.post("/upload", auth, function(req, res) {
 
     upload(req, res, function(err) {
 
@@ -211,7 +211,7 @@ app.post("/upload", function(req, res) {
 
 });
 
-app.post("/addTrail", function(req, res) {
+app.post("/addTrail", auth, function(req, res) {
     var points = JSON.parse(req.body.pointData);
     if(points.length>0){
         var data = {
@@ -223,7 +223,11 @@ app.post("/addTrail", function(req, res) {
             name: req.body.trailTitle
         };
         MongoClient.connect(url, function (err, db) {
-            if (err) throw err;
+            if (err){
+                console.log('Error creating trail');
+                console.log(err);
+                res.redirect("editMapTrails");
+            }
             var dbo = db.db("rockhawkdb");
             dbo.collection("mapTrails").insertOne(data, function (err, res2) {
                 if (err) throw err;
