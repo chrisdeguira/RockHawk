@@ -233,7 +233,6 @@ app.post("/addTrail", auth, function(req, res) {
                 if (err) throw err;
                 console.log("A new trail was created");
                 db.close();
-                res.redirect("editMapTrails");
             });
         });
     }
