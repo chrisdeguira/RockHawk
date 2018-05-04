@@ -232,6 +232,7 @@ app.post("/addTrail", function(req, res) {
             });
         });
     }
+    res.redirect("editMapTrails");
 });
 //-----------------LOGIN/LOGOUT ROUTES--------------------
 

@@ -51,6 +51,7 @@
                 });
                 loadPoints();
 
+
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
             }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
@@ -145,15 +146,31 @@
         }
         getTrails();
 
-    }
 
+    }
+    var trailMarkers = [];
     function addTrailPoint(coords){
         var trailMarker = new google.maps.Marker({
             position:coords,
             map:map,
             icon: "resources/trailMark.png"
         });
+        trailMarkers.push(trailMarker);
     }
+
+    function checkOldPoints(){
+        var jsonString = getCookie("tempTrail");
+        if(jsonString!==""){
+            var existingPoints = JSON.parse(jsonString);
+            if(existingPoints.length>0){
+                if(confirm("Previous temporary trail markers were detected. Would you like to delete them and start a new trail?")){
+                    deleteSavedPoints();
+                }
+            }
+        }
+
+    }
+
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
@@ -211,6 +228,12 @@
         }
 
     }
+    function clearTrailMarkers(){
+        for(var i=0; i<trailMarkers.length; i++){
+            trailMarkers[i].setMap(null);
+            trailMarkers = [];
+        }
+    }
     function savePoints(){
         var json = JSON.stringify(points);
         createCookie("tempTrail",json);
@@ -238,7 +261,7 @@
                 points.pop();
             }
             document.getElementById('pointData').setAttribute("value",JSON.stringify(points));
-            location.reload();
+            clearTrailMarkers();
         }
     }
 
@@ -246,7 +269,8 @@
         if(confirm("Are you sure that you want to undo the last temporary trail marker?")){
             points.pop();
             savePoints();
-            location.reload();
+            clearTrailMarkers();
+            loadPoints();
         }
     }
 
@@ -432,6 +456,7 @@
 <div id="map"></div>
 <div class="w3-main" style="margin-left:250px">
   <div class="formstyle">
+      <button id="clearPointsButton">Test Clear Markers</button>
       <button id="addPointsButton">Add Trail Point</button>
       <button id="undoPointsButton">Undo Previous Point Creation</button>
       <button id="deletePointsButton">Delete All Points</button>
@@ -498,6 +523,11 @@
     document.getElementById("addPointsButton").onclick = addPointToArray;
     document.getElementById("undoPointsButton").onclick = undoPoint;
     document.getElementById("deletePointsButton").onclick = deleteSavedPoints;
+    document.getElementById("clearPointsButton").onclick = clearTrailMarkers;
+    setTimeout(function(){
+        checkOldPoints();
+    },3000);
+
 </script>
 
 
