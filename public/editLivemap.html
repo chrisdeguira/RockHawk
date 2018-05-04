@@ -52,7 +52,7 @@
 
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
-            });
+            }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
 
             //---------------update your position---------------------------------
 
